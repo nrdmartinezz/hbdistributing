@@ -1,7 +1,8 @@
 # Hosting (cPanel)
 
-Everything runs on your own infrastructure. The only external services are GitHub
-(source + CI) and Formspree (form delivery).
+Everything runs on your own infrastructure. The only external service is GitHub
+(source + CI). Form delivery uses PHP on the same cPanel host — see
+`docs/FORMS-AND-EMAIL.md`.
 
 ## URL shape — decided once, do not change casually
 

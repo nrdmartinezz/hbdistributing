@@ -11,41 +11,43 @@ until a project needs one.
 
 ## Populate before you build
 
-| File                                         | What goes in it                                          |            |
-| -------------------------------------------- | -------------------------------------------------------- | ---------- |
-| `src/config/site.ts`                         | Business name, NAP, hours, socials, schema.org type      | required   |
-| `src/config/navigation.ts`                   | Nav tree, header CTA, footer and legal links             | required   |
-| `tokens/*.json`                              | Replace the demo brand — theme regenerates on next build | required   |
-| `public/favicon.svg` + `src/assets/logo.svg` | Client marks                                             | required   |
-| `public/robots.txt`                          | Point the `Sitemap:` line at the real domain             | required   |
-| `astro.config.mjs` → `site`                  | Production origin, no trailing slash                     | required   |
-| `site.ts` → `formspreeId`                    | Formspree form ID (not the full URL)                     | optional   |
-| `site.ts` → `analytics` / `verification`     | Per-platform IDs — blank means that vendor ships nothing | optional   |
-| `.github/workflows/deploy.yml`               | FTP host/path secrets                                    | to publish |
-| `_templates/collection/`                     | Copy only if the site needs a blog or similar            | optional   |
+| File                                            | What goes in it                                          |            |
+| ----------------------------------------------- | -------------------------------------------------------- | ---------- |
+| `src/config/site.ts`                            | Business name, NAP, hours, socials, schema.org type      | required   |
+| `src/config/navigation.ts`                      | Nav tree, header CTA, footer and legal links             | required   |
+| `tokens/*.json`                                 | Replace the demo brand — theme regenerates on next build | required   |
+| `public/favicon.svg` + `src/assets/logo.svg`    | Client marks                                             | required   |
+| `public/robots.txt`                             | Point the `Sitemap:` line at the real domain             | required   |
+| `astro.config.mjs` → `site`                     | Production origin, no trailing slash                     | required   |
+| `site.ts` → `formEndpoint` / `recaptchaSiteKey` | PHP form handler + reCAPTCHA v3 site key                 | optional   |
+| `site.ts` → `analytics` / `verification`        | Per-platform IDs — blank means that vendor ships nothing | optional   |
+| `.github/workflows/deploy.yml`                  | FTP host/path secrets                                    | to publish |
+| `_templates/collection/`                        | Copy only if the site needs a blog or similar            | optional   |
 
 ## Commands
 
-| Command          | Does                                                     |
-| ---------------- | -------------------------------------------------------- |
-| `npm run dev`    | Generates the theme, then starts the dev server on :4321 |
-| `npm run build`  | Generates the theme, then builds to `dist/`              |
-| `npm run verify` | Generates the theme, then `astro check` + Prettier check |
-| `npm run format` | Writes Prettier formatting                               |
-| `npm run audit`  | Lighthouse CI + pa11y against the built site             |
+| Command           | Does                                                     |
+| ----------------- | -------------------------------------------------------- |
+| `npm run dev`     | Generates the theme, then starts the dev server on :4321 |
+| `npm run build`   | Generates the theme, then builds to `dist/`              |
+| `npm run verify`  | Generates the theme, then `astro check` + Prettier check |
+| `npm run format`  | Writes Prettier formatting                               |
+| `npm run audit`   | Lighthouse CI + pa11y against the built site             |
+| `npm run php:dev` | Build, install PHPMailer, serve `dist/` for form testing |
 
 Build the style guide into a production bundle with `STYLEGUIDE=1 npm run build`.
 
 ## Docs
 
-| Doc                           | Covers                                             |
-| ----------------------------- | -------------------------------------------------- |
-| `docs/NEW-PROJECT.md`         | The order to work in when starting a client site   |
-| `docs/THEMING.md`             | Tokens, the generated theme, rebranding            |
-| `docs/RESPONSIVE-RULES.md`    | Desktop-first defaults for tablet and mobile       |
-| `docs/ADDING-A-COLLECTION.md` | Adding a blog or similar, if the project needs one |
-| `docs/HOSTING.md`             | cPanel setup, deploy secrets, log analytics        |
-| `docs/DESIGNER-BRIEF.md`      | Hand to a designer when Figma is involved          |
+| Doc                           | Covers                                              |
+| ----------------------------- | --------------------------------------------------- |
+| `docs/NEW-PROJECT.md`         | The order to work in when starting a client site    |
+| `docs/THEMING.md`             | Tokens, the generated theme, rebranding             |
+| `docs/RESPONSIVE-RULES.md`    | Desktop-first defaults for tablet and mobile        |
+| `docs/ADDING-A-COLLECTION.md` | Adding a blog or similar, if the project needs one  |
+| `docs/FORMS-AND-EMAIL.md`     | PHP form handler, reCAPTCHA, mail config, templates |
+| `docs/HOSTING.md`             | cPanel setup, deploy secrets, log analytics         |
+| `docs/DESIGNER-BRIEF.md`      | Hand to a designer when Figma is involved           |
 
 ## Theming
 

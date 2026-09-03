@@ -19,14 +19,14 @@ Build a **Git template repo** (`astro-business-starter`) you clone per client. I
     - `src/assets/logo.svg` + favicon set *(required)*
     - `public/robots.txt` — confirm the sitemap URL matches the domain *(required)*
     - A content collection copied from `_templates/collection/` *(optional — only if the site has a blog or similar)*
-    - Formspree form ID, analytics + verification IDs in `site.ts` *(optional, per platform)*
+    - PHP form endpoint + reCAPTCHA site key, analytics + verification IDs in `site.ts` *(optional, per platform)*
     - `.github/workflows/deploy.yml` — FTP host/path secrets *(required to publish)*
   Follow it with the standing commands (`dev`, `build`, `verify`, `setup`) and links to `docs/`.
 
 ### Phase 2 — Theme layer & primitives *(must precede Phase 3)*
 7. **Token pipeline:** Style Dictionary reads `tokens/*.json` and emits `src/styles/theme.css` — the Tailwind v4 `@theme` block holding color scales, font families, radii, shadows, `container/max` (**1350px**), and section spacing. It runs from `predev`, `prebuild`, **and `preverify`**, so no entry point can hit a missing stylesheet on a fresh clone. `theme.css` is gitignored; `tokens/*.json` is the only committed source. **There is no override stylesheet** — if one place needs a different value, that's a component-level concern (a prop or a local class), not a global escape hatch. One source, no drift.
 8. **Token sources are pluggable.** A designer using the shared Figma library pushes via Tokens Studio (see Appendix); a one-off design gets transcribed into the JSON; a project with no designer just gets hand-edited values. Document all three in `docs/THEMING.md` so no project is blocked waiting on a design tool.
-9. `src/config/site.ts` — typed `SiteConfig`: business name, NAP (address/phone/hours), social profiles, analytics IDs, Formspree form ID, default OG image, schema.org business type (`LocalBusiness` vs `ProfessionalService` vs `Dentist` etc.).
+9. `src/config/site.ts` — typed `SiteConfig`: business name, NAP (address/phone/hours), social profiles, analytics IDs, PHP form endpoint + reCAPTCHA site key, default OG image, schema.org business type (`LocalBusiness` vs `ProfessionalService` vs `Dentist` etc.).
 10. `src/components/ui/` primitives consuming tokens only. The layout pair is deliberately **two nested wrappers**, mirroring how these pages actually get designed:
     - **`Section`** — the outer element, always 100% viewport width. Owns the *canvas*: background color/image/gradient, vertical rhythm, optional overflow clipping, and the semantic tag via an `as` prop. Nothing inside it needs to know the page is wider than the content.
     - **Rhythm rule, decided once so it never drifts:** `Section` applies **symmetric** `padding-block` from `space/section-y` (a colored band needs air on both sides), and writes its background choice to a `data-bg` attribute. A single global rule collapses the seam when two identical backgrounds meet — `[data-bg='base'] + [data-bg='base'] { padding-block-start: 0 }` — so stacked plain bands read as one continuous flow while a color change keeps its full breathing room. This is the failure mode of every band-based system; solve it in the primitive, not per block.
@@ -72,8 +72,8 @@ Build a **Git template repo** (`astro-business-starter`) you clone per client. I
 31. Legal pages (privacy, terms) are added per project as needed. **A privacy policy is required whenever Meta or Google tags are enabled** — their platform terms mandate one regardless of jurisdiction.
 
 ### Phase 7 — Forms & analytics
-32. **Formspree** contact form: `<form action={`https://formspree.io/f/${site.formspreeId}`} method="POST">` with a `_gotcha` honeypot, `_subject`, and `_next` set to an **absolute URL** — `${site.url}/thank-you/`, trailing slash included to match item 1. Formspree ignores relative paths, which fails in a way that looks like a form bug. Progressive enhancement: a small `fetch()` handler for inline success/error states, with the plain POST as the no-JS fallback.
-33. Reusable `Field`/`FormMessage` primitives + client-side validation via the native constraint API (`required`, `type="email"`, `pattern`) so no validation library ships. Enable Formspree's reCAPTCHA in-dashboard for high-spam clients.
+32. **PHP contact form** (`public/api/submit.php`): forms POST to `/api/submit.php` on the same domain with a `_gotcha` honeypot, `form_type`, and reCAPTCHA v3. `SiteFormHandler` + `RecaptchaV3` in `BaseLayout` provide progressive enhancement via `fetch()` for inline success/error states. Secrets live in `~/private/site-mail.php` outside `public_html`.
+33. Reusable `Field`/`FormMessage` primitives + client-side validation via the native constraint API (`required`, `type="email"`, `pattern`) so no validation library ships. PHPMailer sends via PHP `mail()` by default; optional SMTP in the server config.
 34. **Server log analytics is the baseline, and it costs the page nothing.** Because you own the cPanel server, traffic is measured from access logs (GoAccess, or cPanel's built-in AWStats/Webalizer) with **zero client-side JavaScript, no consent prompt, and no ad-blocker loss**. Support it from the build side: keep `trailingSlash` and URL structure stable so log paths stay comparable release to release, and keep 404s and redirects clean so reports aren't polluted.
 35. **Third-party tags are opt-in per client, only for ad attribution.** `site.ts` carries a typed `analytics` block — `ga4`, `gtm`, `metaPixel`, `bingUet`, `clarity` — plus a `verification` block for the `<meta>` tags each platform wants (`google-site-verification`, `msvalidate.01`, `facebook-domain-verification`). Every tag is **optional**: absent ID means zero bytes shipped. A client not running paid ads ships none of them and still gets full traffic reporting from logs.
 36. `Analytics.astro` renders each configured tag from a single map, so adding a platform is a config edit rather than surgery on the layout. Scripts inject on `requestIdleCallback` or first interaction — never render-blocking.
@@ -91,7 +91,7 @@ Build a **Git template repo** (`astro-business-starter`) you clone per client. I
     - Business name, domain, NAP, hours, socials, and schema.org type → `src/config/site.ts`
     - **"Does this site need a content collection?"** → if yes, asks its name (`posts`, `news`, `insights`, `projects`…) and singular/plural labels, then copies and renames `_templates/collection/` and registers the schema. If no, nothing is added and nothing has to be deleted later.
     - Header sticky behavior → the `Header` prop
-    - Formspree form ID, and each analytics/verification ID with blank meaning "skip this platform entirely"
+    - PHP form endpoint + reCAPTCHA site key, and each analytics/verification ID with blank meaning "skip this platform entirely"
     - Whether a consent banner is needed → the `consent` switch
     - GitHub repo owner/name and cPanel deploy path → `package.json`, `deploy.yml`
     - Finally, clears the demo home page blocks and demo token values on confirmation. The demo `index` therefore lives on in the template repo as its permanent smoke test, while each clone replaces it.
@@ -146,7 +146,7 @@ The starter never requires Figma. When a designer *is* involved, these conventio
 20. Upload `dist/` to a cPanel test subdomain — verify `.htaccess` redirects, that `404.astro` is actually served on a bad URL, that `robots.txt` resolves and points at the real sitemap, and that **no URL 404s or double-redirects from a `trailingSlash` mismatch** (check both `/about` and `/about/`).
 21. Confirm `sitemap-index.xml` contains the real pages and **excludes `/thank-you/` and `/styleguide/`**.
 22. **Phase 3 standalone check:** at the end of Phase 3, before any mega menu exists, the site builds and deploys with a working simple nav. If it doesn't, the header has taken a dependency it shouldn't have.
-23. Submit the Formspree form end-to-end with JS on and off; confirm delivery, that `_next` actually lands on `/thank-you/` (absolute URL, trailing slash), and that `_gotcha` blocks a scripted POST.
+23. Submit the contact form end-to-end; confirm delivery, redirect to `/thank-you/`, and that `_gotcha` blocks a scripted POST.
 24. **No-tags baseline:** with every `analytics` ID blank, confirm the build ships **no third-party requests at all** — and that the log report still attributes that traffic correctly.
 25. Generate a GoAccess report from a day of real access logs and confirm asset paths and bot traffic are excluded, and that page paths match the site's `trailingSlash` setting.
 26. **Tags enabled:** verify GA4 in DebugView, Meta Pixel via the Pixel Helper extension, and Bing UET via UET Tag Helper — each firing exactly once per page view.
@@ -164,7 +164,7 @@ The starter never requires Figma. When a designer *is* involved, these conventio
 
 ### Decisions
 - **A starting point, not a framework.** Three fixed pages, no CMS, no content collections, no page-builder abstraction. Everything else is added per project. Anything that can't justify itself on the *next* site doesn't belong in the starter.
-- **Static-only** — rules out Astro Actions, API routes, and SSR-based form handling. All dynamic behavior is third-party or client-side.
+- **Static output with a PHP form handler** — Astro builds static HTML; `public/api/` ships a cPanel-native PHP endpoint for form delivery (no Formspree, no SSR).
 - **`trailingSlash: 'always'` + `build.format: 'directory'`**, pinned at scaffold time because `.htaccess` rules, internal links, and log-path comparability all depend on it.
 - **Phase 3 must deploy without Phase 4.** The header ships a simple nav first and gains the mega menu as an additive swap, so the mega menu can never block a working site.
 - **`tokens/*.json` is the theme contract; the source of those tokens is deliberately unspecified.** Figma via Tokens Studio, another tool's export, or hand-authored — the pipeline can't tell the difference, so no project is ever blocked waiting on a design file.
@@ -173,13 +173,13 @@ The starter never requires Figma. When a designer *is* involved, these conventio
 - **The theme is generated at build time from `tokens/*.json`, and there is no override stylesheet.** `theme.css` is gitignored and never hand-edited. A one-off visual exception is a component-level decision — a prop or a local class — not a global escape hatch. One source of truth, no drift.
 - **"Section" and "Container" are two different jobs.** `Section` is the full-width outer band that owns the background and vertical rhythm; `Container` is the 1350px centered inner wrapper that owns content layout. Every block is `Section > Container > content`. The block library lives in `components/blocks/` so the word "section" is never overloaded.
 - **Open, self-hostable fonts only** (Google Fonts family via Fontsource). No Adobe Fonts or per-domain-licensed webfonts.
-- **Formspree** for all forms. Requires a paid plan past ~50 submissions/month per project — price it into client retainers.
+- **PHP + PHPMailer** for all forms on cPanel. Uses `mail()` by default; optional SMTP when deliverability needs it. See `docs/FORMS-AND-EMAIL.md`.
 - Registry uses **copy-in (shadcn model), not an npm dependency** — the only model compatible with full per-client component overrides.
 - No React/Vue by default — keeps JS payload near zero. Add an island only where genuinely interactive.
 - **Blocks are props-only and never query content directly.** This is what makes the content layer optional and the blocks portable.
 - **No collection ships.** A blog may not exist, and when it does it may be called something else — so content is a copyable template plus a hand-written Zod schema, not a resident feature.
 - **No CMS.** If a client ever needs to self-publish, that's a per-project add-on and billable scope, not starter overhead.
-- **Everything runs on your own cPanel infrastructure.** The only external services are GitHub (source + CI) and Formspree.
+- **Everything runs on your own cPanel infrastructure.** The only external service is GitHub (source + CI). Form delivery is PHP on the same host.
 - **Log-based analytics is the default measurement layer**; GA4, Meta, and Bing tags are opt-in per client, only when ad attribution requires them.
 - **No consent banner by default** — US-only clientele, no EEA obligation. A `consent` switch covers the exceptions rather than taxing every site.
 - **Mega menu runs at `md` (768px) and up — tablet included.** Below `md`, the standard mobile drawer. One breakpoint, decided once.
