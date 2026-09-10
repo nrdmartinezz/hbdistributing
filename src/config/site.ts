@@ -4,6 +4,16 @@
  * an empty analytics ID means that vendor's script is never emitted.
  */
 
+export interface AnalyticsConfig {
+  /** LogDash website ID (`data-website-id`). Blank skips the script. */
+  logdash: string;
+  ga4: string;
+  gtm: string;
+  metaPixel: string;
+  bingUet: string;
+  clarity: string;
+}
+
 export type SchemaBusinessType =
   | 'LocalBusiness'
   | 'ProfessionalService'
@@ -69,13 +79,7 @@ export interface SiteConfig {
    */
   recaptchaSiteKey: string;
 
-  analytics: {
-    ga4: string;
-    gtm: string;
-    metaPixel: string;
-    bingUet: string;
-    clarity: string;
-  };
+  analytics: AnalyticsConfig;
 
   verification: {
     google: string;
@@ -125,6 +129,7 @@ export const site: SiteConfig = {
   recaptchaSiteKey: '',
 
   analytics: {
+    logdash: '',
     ga4: '',
     gtm: '',
     metaPixel: '',
@@ -146,5 +151,10 @@ export const formattedAddress = [
   `${site.business.address.locality}, ${site.business.address.region} ${site.business.address.postalCode}`,
 ].join(', ');
 
-/** No configured ID means the analytics bundle is never mounted at all. */
-export const hasAnalytics = Object.values(site.analytics).some(Boolean);
+/** LogDash site ID for LogDash.astro (`data-website-id`). Blank skips the script. */
+export const logdashWebsiteId = site.analytics.logdash;
+
+/** No configured third-party ID means the ad-tag bundle is never mounted. */
+export const hasAnalytics = Object.entries(site.analytics).some(
+  ([key, value]) => key !== 'logdash' && Boolean(value),
+);

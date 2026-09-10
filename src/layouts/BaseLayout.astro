@@ -5,6 +5,7 @@ import '../styles/global.css';
 import SEO from '../components/seo/SEO.astro';
 import Schema, { type BreadcrumbEntry, type FaqEntry } from '../components/seo/Schema.astro';
 import Analytics from '../components/analytics/Analytics.astro';
+import LogDash from '../components/analytics/LogDash.astro';
 import CookieConsent from '../components/analytics/CookieConsent.astro';
 import Header, { type HeaderSticky } from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -48,6 +49,7 @@ const { breadcrumbs, faqs, service, sticky = 'sticky', ...seo } = Astro.props;
 
     <SEO {...seo} />
     <Schema breadcrumbs={breadcrumbs} faqs={faqs} service={service} />
+    <LogDash />
     {hasAnalytics && <Analytics />}
 
     <slot name="head" />

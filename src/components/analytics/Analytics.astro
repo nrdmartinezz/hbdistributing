@@ -1,11 +1,11 @@
 ---
 /**
- * Only mounted when at least one analytics ID is set (see BaseLayout), so a
- * client with none ships zero bytes. Server log analytics is the baseline;
- * these tags exist for ad attribution.
+ * Third-party ad attribution tags — mounted only when at least one ID is set
+ * (see `hasAnalytics` in BaseLayout). LogDash (`LogDash.astro`) is separate:
+ * first-party, deferred, and always mounted when `site.analytics.logdash` is set.
  *
- * Nothing is render-blocking: tags load on idle or first interaction, and wait
- * for consent when a banner is configured.
+ * Nothing here is render-blocking: tags load on idle or first interaction, and
+ * wait for consent when a banner is configured.
  */
 import { site } from '../../config/site';
 
