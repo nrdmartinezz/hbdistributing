@@ -41,25 +41,26 @@ Create a secrets file **outside `public_html`** so FTP deploys never overwrite i
 ~/private/site-mail.php
 ```
 
-Rename per client project (e.g. `peninsula-pavers-mail.php`) and update the first path in
-`public/api/lib/mailer.php`.
+`public/api/lib/mailer.php` loads that file after the deployed routing config.
 
-Copy from [`public/api/config.example.php`](../public/api/config.example.php). The handler
-also reads `public/api/config.local.php` if present (local dev only — do not rely on this
-in production).
+Recipients and the From address ship in [`public/api/config.php`](../public/api/config.php).
+Copy [`public/api/config.example.php`](../public/api/config.example.php) to the private file
+only for secrets (reCAPTCHA, SMTP). A private file or `public/api/config.local.php`
+overrides `config.php` key by key. `config.local.php` is for local dev — do not rely on
+it in production.
 
 ### Required keys
 
-| Key                | Purpose                                         |
-| ------------------ | ----------------------------------------------- |
-| `recaptcha_secret` | Google reCAPTCHA v3 secret                      |
-| `notify_to`        | Where lead notifications go (string or array)   |
-| `from_email`       | From address on outbound mail                   |
-| `from_name`        | From display name                               |
-| `site_url`         | Optional — used in email templates              |
-| `site_phone`       | Optional — display phone in email footer        |
-| `site_phone_href`  | Optional — tel: link for phone (`+15550104477`) |
-| `timezone`         | Optional — defaults to `America/New_York`       |
+| Key                | Purpose                                                      |
+| ------------------ | ------------------------------------------------------------ |
+| `recaptcha_secret` | Optional. Blank matches a blank site key and skips the check |
+| `notify_to`        | Where lead notifications go (string or array)                |
+| `from_email`       | From address on outbound mail                                |
+| `from_name`        | From display name                                            |
+| `site_url`         | Optional — used in email templates                           |
+| `site_phone`       | Optional — display phone in email footer                     |
+| `site_phone_href`  | Optional — tel: link for phone (`+15550104477`)              |
+| `timezone`         | Optional — defaults to `America/New_York`                    |
 
 ### Optional SMTP
 
@@ -84,7 +85,7 @@ If any SMTP field is blank, the handler falls back to `mail()`.
 'notify_to' => ['owner@example.com', 'sales@example.com'],
 ```
 
-All addresses receive the internal notification. Invalid entries are skipped.
+All addresses in `notify_to` receive the internal notification. `notify_bcc` gets the same message as BCC and is omitted from the customer autoreply. Invalid entries are skipped.
 
 ## Per-form settings
 
@@ -200,8 +201,8 @@ fill in the optional SMTP fields in `config.local.php`.
 
 ## Production checklist
 
-1. Create `~/private/site-mail.php` on the server (rename per client — update `lib/mailer.php`).
-2. Set `recaptcha_secret`, `notify_to`, `from_email`, `from_name`.
+1. Recipients and the From address are already in `public/api/config.php`.
+2. Create `~/private/site-mail.php` only when adding a reCAPTCHA secret or SMTP password.
 3. Configure `forms` — templates, subjects, autoreply per form.
 4. Deploy via CI (push to `main`) — PHPMailer installs automatically.
 5. Submit each form on the live site; confirm notifications arrive in inbox (not spam).
@@ -211,7 +212,7 @@ fill in the optional SMTP fields in `config.local.php`.
 
 - Secrets never ship in git (`config.local.php` is gitignored).
 - Honeypot field `_gotcha` — bots get a fake success response.
-- reCAPTCHA v3 verified server-side (score threshold configurable via `recaptcha_min_score`).
+- reCAPTCHA v3 is verified server-side when `recaptcha_secret` is set (score threshold via `recaptcha_min_score`). A blank secret skips the check, matching a blank site key.
 - Rate limiting by IP (`rate_limit_seconds`, `rate_limit_max`).
 - Template filenames sanitized — no path traversal.
 

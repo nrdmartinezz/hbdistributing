@@ -7,23 +7,32 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+function readMailFile(string $path): array
+{
+    if (!is_readable($path)) {
+        return [];
+    }
+
+    $config = require $path;
+
+    return is_array($config) ? $config : [];
+}
+
 function loadMailConfig(): array
 {
-    $paths = [
+    $config = readMailFile(__DIR__ . '/../config.php');
+
+    foreach ([
         dirname(__DIR__, 3) . '/private/site-mail.php',
         __DIR__ . '/../config.local.php',
-    ];
-
-    foreach ($paths as $path) {
-        if (is_readable($path)) {
-            $config = require $path;
-            if (is_array($config)) {
-                return $config;
-            }
+    ] as $path) {
+        $overlay = readMailFile($path);
+        if ($overlay !== []) {
+            $config = array_replace($config, $overlay);
         }
     }
 
-    return [];
+    return $config;
 }
 
 function renderTemplate(string $filename, array $vars): string
@@ -170,10 +179,11 @@ function parseEmailList(string|array $value): array
     return $emails;
 }
 
-function sendMail(array $config, string|array $to, string $toName, string $subject, string $htmlBody, ?string $replyTo = null, ?string $replyToName = null): void
+function sendMail(array $config, string|array $to, string $toName, string $subject, string $htmlBody, ?string $replyTo = null, ?string $replyToName = null, string|array|null $bcc = null): void
 {
     $mail = new PHPMailer(true);
     $recipients = parseEmailList($to);
+    $bccRecipients = parseEmailList($bcc ?? []);
 
     if ($recipients === []) {
         throw new RuntimeException('No valid recipient addresses.');
@@ -185,6 +195,11 @@ function sendMail(array $config, string|array $to, string $toName, string $subje
         $mail->setFrom($config['from_email'], $config['from_name']);
         foreach ($recipients as $index => $address) {
             $mail->addAddress($address, $index === 0 ? $toName : '');
+        }
+        foreach ($bccRecipients as $address) {
+            if (!in_array($address, $recipients, true)) {
+                $mail->addBCC($address);
+            }
         }
         $mail->isHTML(true);
         $mail->Subject = $subject;

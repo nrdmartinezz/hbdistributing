@@ -10,11 +10,10 @@
  */
 return [
     'recaptcha_secret' => 'YOUR_RECAPTCHA_SECRET_KEY',
-    'notify_to' => 'leads@example.com',
-    // Or as an array:
-    // 'notify_to' => ['owner@example.com', 'sales@example.com'],
-    'from_email' => 'noreply@example.com',
-    'from_name' => 'Example Business',
+    'notify_to' => 'TWK@hbdistributing.com',
+    'notify_bcc' => ['nate@webpro.com', 'verifybu@webpro.com'],
+    'from_email' => 'info@hbdistributing.com',
+    'from_name' => 'HB Distributing',
     'site_url' => 'https://example.com',
     'site_phone' => '(555) 010-4477',
     'site_phone_href' => '+15550104477',
@@ -28,7 +27,7 @@ return [
 
     'forms' => [
         'contact' => [
-            'subject' => 'New enquiry — Example Business',
+            'subject' => 'New enquiry — HB Distributing',
             'notification' => 'notification-contact.html',
             // Autoreply disabled by default — set send_autoreply => true to enable.
         ],

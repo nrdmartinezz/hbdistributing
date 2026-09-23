@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $config = loadMailConfig();
-if ($config === [] || empty($config['recaptcha_secret']) || empty($config['from_email']) || parseEmailList($config['notify_to'] ?? '') === []) {
+if ($config === [] || empty($config['from_email']) || parseEmailList($config['notify_to'] ?? '') === []) {
     error_log('Form mail config missing or incomplete.');
     jsonError(503, 'Form is temporarily unavailable.');
 }
@@ -39,10 +39,13 @@ if (!empty($_POST['_gotcha'])) {
     jsonSuccess();
 }
 
-$recaptchaToken = $_POST['g-recaptcha-response'] ?? '';
-$minScore = (float) ($config['recaptcha_min_score'] ?? 0.5);
-if (!verifyRecaptcha($recaptchaToken, $config['recaptcha_secret'], $minScore, $remoteIp)) {
-    jsonError(400, 'Verification failed. Please refresh and try again.');
+$recaptchaSecret = trim((string) ($config['recaptcha_secret'] ?? ''));
+if ($recaptchaSecret !== '' && $recaptchaSecret !== 'YOUR_RECAPTCHA_SECRET_KEY') {
+    $recaptchaToken = (string) ($_POST['g-recaptcha-response'] ?? '');
+    $minScore = (float) ($config['recaptcha_min_score'] ?? 0.5);
+    if (!verifyRecaptcha($recaptchaToken, $recaptchaSecret, $minScore, $remoteIp)) {
+        jsonError(400, 'Verification failed. Please refresh and try again.');
+    }
 }
 
 $formType = trim((string) ($_POST['form_type'] ?? ''));
@@ -173,6 +176,7 @@ try {
         $notificationHtml,
         $email,
         $name,
+        $config['notify_bcc'] ?? [],
     );
 
     if ($formMail['send_autoreply']) {
