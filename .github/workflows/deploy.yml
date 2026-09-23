@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy
+  group: deploy-production
   cancel-in-progress: false
 
 jobs:
@@ -14,7 +14,40 @@ jobs:
     name: Build and upload to cPanel
     runs-on: ubuntu-latest
     environment: production
+    env:
+      SITE_URL: ${{ secrets.SITE_URL || vars.SITE_URL }}
+      # Early production. Flip this to the environment variable when the site should be indexed.
+      ALLOW_INDEXING: 'false'
     steps:
+      - name: Check deploy settings
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER || secrets.FTP_USERNAME }}
+          FTP_PW: ${{ secrets.FTP_PW || secrets.FTP_PASSWORD }}
+        run: |
+          missing=0
+          if [ -z "$FTP_HOST" ]; then
+            echo "::error title=Missing FTP host::The production environment needs an FTP_HOST secret."
+            missing=1
+          fi
+          if [ -z "$FTP_USER" ]; then
+            echo "::error title=Missing FTP user::The production environment needs an FTP_USER secret."
+            missing=1
+          fi
+          if [ -z "$FTP_PW" ]; then
+            echo "::error title=Missing FTP password::The production environment needs an FTP_PW secret."
+            missing=1
+          fi
+          if [ -z "$SITE_URL" ]; then
+            echo "::error title=Missing SITE_URL::The production environment needs a SITE_URL variable or secret."
+            missing=1
+          fi
+          if [ "$missing" -eq 0 ]; then
+            echo "Production settings found. Indexing is off."
+            echo "SITE_URL=$SITE_URL"
+          fi
+          exit "$missing"
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -35,13 +68,13 @@ jobs:
       - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER || secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PW || secrets.FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./dist/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          # Keeps anything the server owns that the build does not produce.
+          # Account home is already the document root, same as the other sites.
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
           exclude: |
             **/.git*
             **/.git*/**

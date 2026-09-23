@@ -17,7 +17,7 @@ until a project needs one.
 | `src/config/navigation.ts`                      | Nav tree, header CTA, footer and legal links             | required   |
 | `tokens/*.json`                                 | Replace the demo brand — theme regenerates on next build | required   |
 | `public/favicon.svg` + `src/assets/logo.svg`    | Client marks                                             | required   |
-| `public/robots.txt`                             | Point the `Sitemap:` line at the real domain             | required   |
+| `SITE_URL` on the `production` environment      | Canonical origin; indexing stays off until launch        | required   |
 | `astro.config.mjs` → `site`                     | Production origin, no trailing slash                     | required   |
 | `site.ts` → `formEndpoint` / `recaptchaSiteKey` | PHP form handler + reCAPTCHA v3 site key                 | optional   |
 | `site.ts` → `analytics` / `verification`        | Per-platform IDs — blank means that vendor ships nothing | optional   |

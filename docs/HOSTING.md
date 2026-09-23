@@ -30,15 +30,22 @@ the same page.
 3. Create an FTP account scoped to the document root.
 4. Add repository secrets in GitHub → Settings → Secrets → Actions:
 
-   | Secret           | Value                                    |
-   | ---------------- | ---------------------------------------- |
-   | `FTP_SERVER`     | `ftp.example.com`                        |
-   | `FTP_USERNAME`   | The scoped FTP account                   |
-   | `FTP_PASSWORD`   | Its password                             |
-   | `FTP_SERVER_DIR` | `public_html/` (trailing slash required) |
+   Create a GitHub Environment named `production`. Put these on that
+   environment, not only as repository secrets.
 
-5. Update `site` in `astro.config.mjs` and the `Sitemap:` line in
-   `public/robots.txt` to the real domain.
+   | Secret / variable | Value                                                         |
+   | ----------------- | ------------------------------------------------------------- |
+   | `FTP_HOST`        | cPanel FTP hostname                                           |
+   | `FTP_USER`        | The scoped FTP account                                        |
+   | `FTP_PW`          | Its password                                                  |
+   | `SITE_URL`        | `https://example.com` (variable or secret, no trailing slash) |
+
+   The FTP account home must already be the document root. The workflow
+   uploads to `./`.
+
+5. Indexing is off until launch. The deploy sets `ALLOW_INDEXING=false`, which
+   emits `noindex` on every page, a `Disallow: /` robots file, and no sitemap.
+   Set that value to `true` in the workflow when the site should be found.
 
 ## Deploying
 

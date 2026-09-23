@@ -92,7 +92,7 @@ export interface SiteConfig {
 }
 
 export const site: SiteConfig = {
-  url: 'https://example.com',
+  url: (import.meta.env.SITE || 'https://example.com').replace(/\/$/, ''),
   name: 'HB Distributing',
   legalName: 'HB Distributing',
   tagline: 'Comprehensive logistics partnerships for the modern era.',
@@ -153,3 +153,6 @@ export const logdashWebsiteId = site.analytics.logdash;
 export const hasAnalytics = Object.entries(site.analytics).some(
   ([key, value]) => key !== 'logdash' && Boolean(value),
 );
+
+/** Production stays out of search results until ALLOW_INDEXING=true at build time. */
+export const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true';
