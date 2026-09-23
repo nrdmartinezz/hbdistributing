@@ -33,13 +33,13 @@ the same page.
    Create a GitHub Environment named `production`. Put these on that
    environment, not only as repository secrets.
 
-   | Secret / variable | Value                                                         |
-   | ----------------- | ------------------------------------------------------------- |
-   | `FTP_HOST`        | cPanel FTP hostname                                           |
-   | `FTP_USER`        | The scoped FTP account                                        |
-   | `FTP_PW`          | Its password                                                  |
+   | Secret / variable | Value                                                                   |
+   | ----------------- | ----------------------------------------------------------------------- |
+   | `FTP_HOST`        | cPanel FTP hostname                                                     |
+   | `FTP_USER`        | The scoped FTP account                                                  |
+   | `FTP_PW`          | Its password                                                            |
    | `FTP_SERVER_DIR`  | Remote path from the FTP home (variable or secret), e.g. `public_html/` |
-   | `SITE_URL`        | `https://example.com` (variable or secret, no trailing slash) |
+   | `SITE_URL`        | `https://example.com` (variable or secret, no trailing slash)           |
 
    `FTP_SERVER_DIR` is the upload path. A blank value uploads to `./`, which
    is correct only when the FTP account home is already the document root.
