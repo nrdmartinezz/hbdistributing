@@ -12,7 +12,7 @@ return [
     'recaptcha_secret' => 'YOUR_RECAPTCHA_SECRET_KEY',
     'notify_to' => 'TWK@hbdistributing.com',
     'notify_bcc' => ['nate@webpro.com', 'verifybu@webpro.com'],
-    'from_email' => 'info@hbdistributing.com',
+    'from_email' => 'TWK@hbdistributing.com',
     'from_name' => 'HB Distributing',
     'site_url' => 'https://example.com',
     'site_phone' => '(555) 010-4477',
