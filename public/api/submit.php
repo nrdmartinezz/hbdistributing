@@ -60,6 +60,47 @@ $message = trim((string) ($_POST['message'] ?? ''));
 $hearAbout = trim((string) ($_POST['hear_about_us'] ?? ''));
 $service = trim((string) ($_POST['service'] ?? ''));
 
+$reserved = [
+    'form_type',
+    'name',
+    'email',
+    'phone',
+    'message',
+    'hear_about_us',
+    'service',
+    'services',
+    'g-recaptcha-response',
+    '_gotcha',
+    '_next',
+];
+$extraLines = [];
+foreach ($_POST as $key => $value) {
+    if (in_array($key, $reserved, true)) {
+        continue;
+    }
+    if (is_array($value)) {
+        $value = implode(', ', array_map(static fn ($item): string => trim((string) $item), $value));
+    } else {
+        $value = trim((string) $value);
+    }
+    if ($value === '') {
+        continue;
+    }
+    $label = ucwords(str_replace(['_', '-'], ' ', (string) $key));
+    $extraLines[] = $label . ': ' . $value;
+}
+foreach ($_FILES as $key => $file) {
+    $filename = trim((string) ($file['name'] ?? ''));
+    if ($filename === '') {
+        continue;
+    }
+    $label = ucwords(str_replace(['_', '-'], ' ', (string) $key));
+    $extraLines[] = $label . ': ' . $filename;
+}
+if ($extraLines !== []) {
+    $message .= "\n\n" . implode("\n", $extraLines);
+}
+
 if ($name === '' || $email === '' || $message === '') {
     jsonError(400, 'Please fill in all required fields.');
 }

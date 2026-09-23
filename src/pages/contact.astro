@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import FormMessage from '../components/ui/FormMessage.astro';
+import { site } from '../config/site';
+
+const action = site.formEndpoint;
+const thankYou = new URL('/thank-you/', site.url).href;
+const field =
+  'mt-2 w-full rounded-sm bg-white px-4 py-3.5 text-base font-normal text-ink-base placeholder:text-[#c4c6cf]';
+const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
+---
+
+<BaseLayout
+  title="Contact HBDI"
+  description="Connect directly with HB Distributing logistics specialists, regional headquarters, or departmental leads."
+>
+  <section class="py-16">
+    <Container class="gap-16">
+      <div class="grid items-end gap-6 lg:grid-cols-2">
+        <div>
+          <p
+            class="text-accent-600 flex items-center gap-2 text-sm font-semibold tracking-[0.08em] uppercase"
+          >
+            <img src="/images/icons/pin.svg" alt="" width="20" height="18" />
+            Global communications
+          </p>
+          <h1 class="text-brand-900 mt-2 text-5xl font-semibold">Contact HBDI</h1>
+        </div>
+        <p class="text-ink-muted max-w-md justify-self-end text-right leading-7 max-lg:text-left">
+          Connect directly with our logistics specialists, regional headquarters, or departmental
+          leads for immediate assistance.
+        </p>
+      </div>
+
+      <div class="grid items-start gap-6 lg:grid-cols-12">
+        <form
+          id="inquiry"
+          class="relative flex flex-col gap-6 overflow-hidden rounded-lg bg-[#eef5ff] p-8 lg:col-span-8"
+          action={action}
+          method="POST"
+          data-site-form
+          data-thank-you={thankYou}
+          data-track-source="contact"
+        >
+          <input type="hidden" name="form_type" value="contact" />
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label for="contact-gotcha">Leave this field empty</label>
+            <input
+              id="contact-gotcha"
+              name="_gotcha"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <h2 class="text-brand-900 text-3xl font-semibold">Send a General Inquiry</h2>
+            <p class="text-ink-muted mt-2 leading-6">
+              Fill out the form below and our team will route your request to the appropriate
+              department within 2 hours.
+            </p>
+          </div>
+          <div class="grid gap-6 md:grid-cols-2">
+            <label class={label}>
+              Full Name <span class="text-accent-600 font-normal">*</span>
+              <input
+                class={field}
+                name="name"
+                autocomplete="name"
+                placeholder="John Doe"
+                required
+              />
+            </label>
+            <label class={label}>
+              Work Email <span class="text-accent-600 font-normal">*</span>
+              <input
+                class={field}
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="john.doe@company.com"
+                required
+              />
+            </label>
+            <label class={label}>
+              Company Name <span class="text-accent-600 font-normal">*</span>
+              <input
+                class={field}
+                name="company"
+                autocomplete="organization"
+                placeholder="Acme Logistics Corp"
+                required
+              />
+            </label>
+            <label class={label}>
+              Topic / Department <span class="text-accent-600 font-normal">*</span>
+              <select class={field} name="service" required>
+                <option value="">Select Department</option>
+                <option>General inquiry</option>
+                <option>Sales</option>
+                <option>Support</option>
+                <option>Partnerships</option>
+                <option>Facility tour</option>
+                <option>Strategic sourcing</option>
+              </select>
+            </label>
+          </div>
+          <label class={label}>
+            Message <span class="text-accent-600 font-normal">*</span>
+            <textarea
+              class:list={[field, 'min-h-36']}
+              name="message"
+              required
+              placeholder="Please provide details about your inquiry, shipment numbers, or partnership interests..."
+            ></textarea>
+          </label>
+          <FormMessage />
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <p class="text-ink-muted flex items-center gap-2 text-xs">
+              <img src="/images/icons/lock-line.svg" alt="" width="16" height="21" />
+              Encrypted & confidential transmission
+            </p>
+            <button
+              type="submit"
+              class="bg-accent-600 inline-flex items-center gap-2 rounded-sm px-8 py-4 text-sm font-semibold tracking-[0.04em] text-white shadow-md"
+            >
+              Send Message
+              <img src="/images/icons/plane.svg" alt="" width="19" height="16" />
+            </button>
+          </div>
+        </form>
+
+        <div class="flex flex-col gap-6 lg:col-span-4">
+          <div class="bg-brand-900 relative overflow-hidden rounded-lg p-8 text-white">
+            <h2 class="flex items-center gap-3 text-2xl font-semibold">
+              <img src="/images/icons/spark.svg" alt="" width="24" height="23" />
+              Direct Headquarters
+            </h2>
+            <ul class="mt-6 flex flex-col gap-6">
+              <li class="flex gap-4">
+                <img src="/images/icons/hq-pin.svg" alt="" width="32" height="42" />
+                <div>
+                  <p class="text-brand-300 text-sm font-semibold tracking-[0.04em] uppercase">
+                    Global HQ
+                  </p>
+                  <p class="text-[#e8f2ff]">
+                    {site.business.address.street}<br />
+                    {site.business.address.locality}, {site.business.address.region}{' '}
+                    {site.business.address.postalCode}, USA
+                  </p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <img src="/images/icons/phone-badge.svg" alt="" width="34" height="40" />
+                <div>
+                  <p class="text-brand-300 text-sm font-semibold tracking-[0.04em] uppercase">
+                    Phone support
+                  </p>
+                  <p class="text-[#e8f2ff]">
+                    <a href={`tel:${site.business.phoneHref}`} class="text-[#e8f2ff] no-underline"
+                      >{site.business.phone}</a
+                    ><br />
+                    Mon-Fri: 8:00 AM - 6:00 PM<br />CST
+                  </p>
+                </div>
+              </li>
+              <li class="flex gap-4">
+                <img src="/images/icons/mail-badge.svg" alt="" width="36" height="38" />
+                <div>
+                  <p class="text-brand-300 text-sm font-semibold tracking-[0.04em] uppercase">
+                    Direct email
+                  </p>
+                  <p class="text-[#e8f2ff]">
+                    <a href="mailto:support@hbdistributing.com" class="text-[#e8f2ff] no-underline"
+                      >support@hbdistributing.com</a
+                    ><br />
+                    <a href="mailto:sales@hbdistributing.com" class="text-[#e8f2ff] no-underline"
+                      >sales@hbdistributing.com</a
+                    >
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-brand-200 rounded-lg p-8">
+            <h2 class="text-brand-900 flex items-center gap-3 text-2xl font-semibold">
+              <img src="/images/icons/hub.svg" alt="" width="20" height="20" />
+              Regional Hubs
+            </h2>
+            <div class="mt-4 flex flex-col gap-4">
+              <div class="rounded-sm bg-white p-4">
+                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">
+                  European Operations
+                </p>
+                <p class="text-ink-muted text-sm">Rotterdam Logistics Center, NL</p>
+              </div>
+              <div class="rounded-sm bg-white p-4">
+                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">
+                  Asia-Pacific Logistics
+                </p>
+                <p class="text-ink-muted text-sm">Singapore Distribution Hub, SG</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-lg bg-[#1b365d] p-10 text-white lg:flex-row lg:items-center"
+      >
+        <img
+          src="/images/contact-facilities.png"
+          alt=""
+          width="512"
+          height="279"
+          class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-overlay"
+        />
+        <div class="relative max-w-xl">
+          <p class="text-sm font-semibold tracking-[0.04em] text-[#ffb599] uppercase">
+            Visit our facilities
+          </p>
+          <h2 class="mt-2 text-3xl leading-10 font-semibold text-[#e8f2ff]">
+            Schedule a Warehouse Tour or Vendor Meeting
+          </h2>
+          <p class="mt-3 leading-6 text-[#e8f2ff]/80">
+            Our state-of-the-art automated fulfillment centers are open for partner tours by
+            appointment. Contact our logistics desk to arrange a guided walkthrough.
+          </p>
+        </div>
+        <a
+          href="#inquiry"
+          data-facility-tour
+          class="bg-accent-600 relative inline-flex items-center rounded-sm px-6 py-4 text-sm font-semibold tracking-[0.04em] text-white no-underline"
+        >
+          Request Facility Tour
+        </a>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
+
+<script>
+  const tour = document.querySelector<HTMLAnchorElement>('[data-facility-tour]');
+  tour?.addEventListener('click', () => {
+    const select = document.querySelector<HTMLSelectElement>('#inquiry [name="service"]');
+    if (select) select.value = 'Facility tour';
+    document.querySelector<HTMLInputElement>('#inquiry [name="name"]')?.focus();
+  });
+</script>

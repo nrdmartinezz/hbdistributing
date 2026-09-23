@@ -1,0 +1,281 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import FormMessage from '../components/ui/FormMessage.astro';
+import { site } from '../config/site';
+
+const action = site.formEndpoint;
+const thankYou = new URL('/thank-you/', site.url).href;
+const field =
+  'mt-2 w-full rounded-sm border border-[#d5dbe3] bg-[#f4f7fb] px-4 py-3 text-base font-normal text-ink-base normal-case placeholder:text-[#9ca3af]';
+const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
+---
+
+<BaseLayout
+  title="Partner With HB Distributing"
+  description="Submit manufacturing capabilities for onboarding evaluation across HB Distributing's global logistics network."
+>
+  <section class="bg-brand-900 text-white">
+    <Container class="grid items-center gap-10 py-16 lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        <p class="text-brand-300 text-sm font-semibold tracking-[0.12em] uppercase">
+          Global vendor network
+        </p>
+        <h1 class="mt-3 text-4xl font-semibold md:text-5xl">Partner With HB Distributing</h1>
+        <p class="mt-4 max-w-2xl leading-7 text-white/80">
+          We scale world-class manufacturing capabilities into global markets through unmatched
+          logistics precision, tier-1 distribution networks, and advanced inventory optimization.
+        </p>
+      </div>
+      <div class="grid grid-cols-2 gap-4 lg:col-span-4">
+        <div class="rounded-lg bg-white/10 p-5">
+          <p class="text-3xl font-semibold">500+</p>
+          <p class="text-brand-300 text-sm">Active Global Partners</p>
+        </div>
+        <div class="rounded-lg bg-white/10 p-5">
+          <p class="text-3xl font-semibold">$2.4B</p>
+          <p class="text-brand-300 text-sm">Annual Sourcing Volume</p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="py-20">
+    <Container class="items-center text-center">
+      <h2 class="text-ink-base text-3xl font-semibold">Why Manufacturers Choose Us</h2>
+      <p class="text-ink-muted mt-3 max-w-xl">
+        We bridge the gap between tier-one manufacturing and enterprise distribution channels.
+      </p>
+      <div class="mt-12 grid w-full gap-6 text-left md:grid-cols-2 lg:grid-cols-3">
+        <article class="rounded-lg bg-white p-8 shadow-sm">
+          <img src="/images/icons/market.svg" alt="" width="20" height="20" />
+          <h3 class="text-ink-base mt-4 text-xl font-semibold">Global Market Access</h3>
+          <p class="text-ink-muted mt-2 leading-6">
+            Instantly distribute your product lines across North America, EMEA, and APAC through our
+            established logistics corridors.
+          </p>
+          <p class="text-accent-600 mt-4 text-sm font-semibold">Enterprise Scale</p>
+        </article>
+        <article class="rounded-lg bg-white p-8 shadow-sm">
+          <img src="/images/icons/qa.svg" alt="" width="20" height="20" />
+          <h3 class="text-ink-base mt-4 text-xl font-semibold">Automated Inventory Sync</h3>
+          <p class="text-ink-muted mt-2 leading-6">
+            Real-time EDI and API integration ensures optimal stock levels across our 40+ regional
+            distribution hubs.
+          </p>
+          <p class="text-accent-600 mt-4 text-sm font-semibold">Real-time EDI</p>
+        </article>
+        <article class="rounded-lg bg-white p-8 shadow-sm">
+          <img src="/images/icons/badge.svg" alt="" width="13" height="17" />
+          <h3 class="text-ink-base mt-4 text-xl font-semibold">Compliance & QA Support</h3>
+          <p class="text-ink-muted mt-2 leading-6">
+            Rigorous quality assurance protocols and complete traceability from factory floor to end
+            enterprise customer.
+          </p>
+          <p class="text-accent-600 mt-4 text-sm font-semibold">ISO Certified</p>
+        </article>
+      </div>
+    </Container>
+  </section>
+
+  <section class="pb-20">
+    <Container>
+      <form
+        class="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-lg bg-white p-8 shadow-md md:p-10"
+        action={action}
+        method="POST"
+        enctype="multipart/form-data"
+        data-site-form
+        data-thank-you={thankYou}
+        data-track-source="supplier-inquiry"
+      >
+        <input type="hidden" name="form_type" value="contact" />
+        <input type="hidden" name="service" value="Supplier partnership inquiry" />
+        <div class="absolute -left-[9999px]" aria-hidden="true">
+          <label for="partner-gotcha">Leave this field empty</label>
+          <input id="partner-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div>
+          <h2 class="text-ink-base text-2xl font-semibold">
+            Manufacturer & Supplier Partnership Inquiry
+          </h2>
+          <p class="text-ink-muted mt-2">
+            Complete the form below to submit your manufacturing capabilities for onboarding
+            evaluation.
+          </p>
+        </div>
+
+        <fieldset class="flex flex-col gap-4">
+          <legend class="text-brand-900 text-lg font-semibold"
+            >1 &nbsp; Company & Contact Information</legend
+          >
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class={label}>
+              Company Name *
+              <input
+                class={field}
+                name="company"
+                placeholder="e.g., Apex Industrial Components Ltd."
+                required
+              />
+            </label>
+            <label class={label}>
+              Primary Contact Name *
+              <input
+                class={field}
+                name="name"
+                autocomplete="name"
+                placeholder="Full Name & Title"
+                required
+              />
+            </label>
+            <label class={label}>
+              Corporate Email *
+              <input
+                class={field}
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="contact@apexindustrial.com"
+                required
+              />
+            </label>
+            <label class={label}>
+              Phone Number *
+              <input
+                class={field}
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                placeholder="+1 (555) 019-2834"
+                required
+              />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="flex flex-col gap-4">
+          <legend class="text-brand-900 text-lg font-semibold"
+            >2 &nbsp; Capabilities & Product Lines</legend
+          >
+          <label class={label}>
+            Primary Product Lines & Categories *
+            <textarea
+              class:list={[field, 'min-h-28']}
+              name="message"
+              required
+              placeholder="Describe your core product offerings, specialized manufacturing capabilities, and material types..."
+            ></textarea>
+          </label>
+          <fieldset>
+            <legend class={label}>Operating Territories / Distribution Reach *</legend>
+            <div class="mt-3 flex flex-wrap gap-4">
+              {
+                ['North America', 'EMEA', 'APAC', 'Latin America'].map((region) => (
+                  <label class="text-ink-base inline-flex min-h-11 items-center gap-2 text-sm font-medium normal-case">
+                    <input
+                      type="checkbox"
+                      name="territories"
+                      value={region}
+                      class="size-5 accent-[#002046]"
+                    />
+                    {region}
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="grid gap-4 md:grid-cols-3">
+          <legend class="text-brand-900 col-span-full text-lg font-semibold">
+            3 &nbsp; Compliance, Quality & Metrics
+          </legend>
+          <label class={label}>
+            Quality Certifications *
+            <select class={field} name="certification" required>
+              <option value="">Select primary certification</option>
+              <option>ISO 9001</option>
+              <option>ISO 14001</option>
+              <option>ISO 45001</option>
+              <option>IATF 16949</option>
+              <option>AS9100</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class={label}>
+            Minimum Order Quantity (MOQ)
+            <input class={field} name="moq" placeholder="e.g., 500 units or $5,000" />
+          </label>
+          <label class={label}>
+            Average Lead Times
+            <input class={field} name="lead_time" placeholder="e.g., 4-6 Weeks" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend class="text-brand-900 text-lg font-semibold"
+            >4 &nbsp; Line Card & Catalog Upload</legend
+          >
+          <label
+            class="mt-4 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-[#c4c6cf] bg-[#f7f9ff] px-6 py-8 text-center"
+          >
+            <img src="/images/icons/cloud.svg" alt="" width="33" height="24" />
+            <span class="text-ink-base mt-3 font-semibold"
+              >Drag and drop your line card or catalog</span
+            >
+            <span class="text-ink-muted text-sm">Supports PDF, XLSX, or CSV up to 25MB</span>
+            <input class="mt-4 max-w-full text-sm" type="file" name="catalog" accept=".pdf,.xlsx,.csv" />
+          </label>
+        </fieldset>
+
+        <FormMessage />
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <p class="text-ink-muted max-w-md text-sm">
+            By submitting, you agree to HB Distributing’s Vendor Compliance & Sourcing Agreement.
+          </p>
+          <button
+            type="submit"
+            class="bg-accent-400 rounded-sm px-8 py-4 text-sm font-semibold tracking-[0.04em] text-white"
+          >
+            Submit Inquiry
+          </button>
+        </div>
+      </form>
+    </Container>
+  </section>
+
+  <section class="bg-white py-16">
+    <Container>
+      <p class="text-accent-600 text-sm font-semibold tracking-[0.1em] uppercase">
+        Global logistics infrastructure
+      </p>
+      <h2 class="text-ink-base mt-2 max-w-xl text-3xl font-semibold">
+        Integrated Hubs Ready for Your Inventory
+      </h2>
+      <p class="text-ink-muted mt-3 max-w-2xl">
+        Our distribution centers are strategically placed near major trade corridors, equipped with
+        automated sortation systems, climate-controlled warehousing, and secure bonded storage
+        facilities.
+      </p>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        <article>
+          <h3 class="text-accent-600 flex items-center gap-2 font-semibold">
+            <img src="/images/icons/pin-dot.svg" alt="" width="9" height="9" />
+            North American Hub (Chicago, IL)
+          </h3>
+          <p class="text-ink-muted mt-1">1.2M sq. ft. primary sorting and distribution center.</p>
+        </article>
+        <article>
+          <h3 class="text-accent-600 flex items-center gap-2 font-semibold">
+            <img src="/images/icons/pin-dot.svg" alt="" width="9" height="9" />
+            European Hub (Rotterdam, NL)
+          </h3>
+          <p class="text-ink-muted mt-1">
+            Direct seaport access for rapid trans-Atlantic freight operations.
+          </p>
+        </article>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import FormMessage from '../components/ui/FormMessage.astro';
+import { site } from '../config/site';
+
+const action = site.formEndpoint;
+const thankYou = new URL('/thank-you/', site.url).href;
+
+const field =
+  'w-full rounded-sm border border-transparent bg-white px-4 py-3.5 text-base font-normal text-ink-base normal-case placeholder:text-[#9ca3af]';
+const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
+---
+
+<BaseLayout
+  title="Strategic Sourcing Request"
+  description="Submit your complex Bill of Materials or hard-to-find component requirements to the HB Distributing sourcing desk."
+>
+  <section class="py-16">
+    <Container>
+      <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <div class="max-w-3xl">
+          <p class="text-accent-600 text-sm font-semibold tracking-[0.05em] uppercase">
+            Enterprise procurement
+          </p>
+          <h1 class="text-brand-900 mt-2 text-4xl font-semibold">Strategic Sourcing Request</h1>
+          <p class="text-ink-muted mt-3 leading-7">
+            Submit your complex Bill of Materials (BOM) or hard-to-find component requirements. Our
+            global sourcing desk analyzes tier-one supplier networks to mitigate supply chain risks
+            and optimize unit economics.
+          </p>
+        </div>
+        <p class="bg-brand-200 flex items-center gap-3 rounded-lg px-4 py-3 text-sm">
+          <img src="/images/icons/badge.svg" alt="" width="13" height="17" />
+          <span>
+            <span class="text-brand-900 block font-semibold tracking-[0.04em]"
+              >ISO 9001:2015 Certified</span
+            >
+            <span class="text-ink-muted text-xs">Global Sourcing Standards</span>
+          </span>
+        </p>
+      </div>
+
+      <div class="mt-10 grid items-start gap-6 lg:grid-cols-12">
+        <form
+          class="flex flex-col gap-8 rounded-lg bg-[#edf4ff] p-8 shadow-sm lg:col-span-8"
+          action={action}
+          method="POST"
+          enctype="multipart/form-data"
+          data-site-form
+          data-thank-you={thankYou}
+          data-track-source="quote-builder"
+        >
+          <input type="hidden" name="form_type" value="contact" />
+          <input type="hidden" name="service" value="Strategic sourcing request" />
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label for="quote-gotcha">Leave this field empty</label>
+            <input id="quote-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <fieldset class="flex flex-col gap-4">
+            <legend class="text-brand-900 flex items-center gap-3 text-2xl font-semibold">
+              <span
+                class="bg-brand-900 flex size-8 items-center justify-center rounded-xl text-sm text-white"
+                >1</span
+              >
+              Company & Project Information
+            </legend>
+            <div class="grid gap-4 md:grid-cols-2">
+              <label class={label}>
+                Company Name
+                <input
+                  class:list={[field, 'mt-2']}
+                  name="company"
+                  autocomplete="organization"
+                  placeholder="e.g., Apex Manufacturing Corp"
+                  required
+                />
+              </label>
+              <label class={label}>
+                Primary Contact Name
+                <input
+                  class:list={[field, 'mt-2']}
+                  name="name"
+                  autocomplete="name"
+                  placeholder="e.g., Sarah Jenkins"
+                  required
+                />
+              </label>
+              <label class={label}>
+                Business Email
+                <input
+                  class:list={[field, 'mt-2']}
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="s.jenkins@apexmfg.com"
+                  required
+                />
+              </label>
+              <label class={label}>
+                Phone Number
+                <input
+                  class:list={[field, 'mt-2']}
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="+1 (555) 019-2834"
+                />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="flex flex-col gap-3">
+            <legend class="text-brand-900 flex flex-wrap items-center gap-3 text-2xl font-semibold">
+              <span
+                class="bg-brand-900 flex size-8 items-center justify-center rounded-xl text-sm text-white"
+                >2</span
+              >
+              Product List & BOM Upload
+              <span class="text-accent-600 text-xs font-medium">Required</span>
+            </legend>
+            <p class="text-ink-muted text-sm">
+              Upload your Bill of Materials (BOM), part specification sheets, or line-item
+              requirements spreadsheet (.xlsx, .csv, .pdf).
+            </p>
+            <label
+              class="flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-[#c4c6cf] bg-[#edf4ff] px-6 py-10 text-center"
+            >
+              <img src="/images/icons/cloud.svg" alt="" width="33" height="24" />
+              <span class="text-brand-900 mt-3 text-sm font-semibold tracking-[0.04em]">
+                Click to upload or drag and drop files here
+              </span>
+              <span class="text-ink-muted mt-1 text-xs"
+                >Maximum file size: 50MB (CSV, XLSX, PDF, CAD)</span
+              >
+              <input
+                class="mt-4 text-sm"
+                type="file"
+                name="bom"
+                accept=".csv,.xlsx,.pdf,.dwg,.dxf,.step,.stp"
+                required
+              />
+            </label>
+          </fieldset>
+
+          <fieldset class="flex flex-col gap-4">
+            <legend class="text-brand-900 flex items-center gap-3 text-2xl font-semibold">
+              <span
+                class="bg-brand-900 flex size-8 items-center justify-center rounded-xl text-sm text-white"
+                >3</span
+              >
+              Volume & Approved Vendors
+            </legend>
+            <div class="grid gap-4 md:grid-cols-2">
+              <label class={label}>
+                Estimated Annual Volume / Spend
+                <select class:list={[field, 'mt-2']} name="annual_volume" required>
+                  <option value="">Select annual volume tier...</option>
+                  <option>Under $250,000</option>
+                  <option>$250,000 – $1 million</option>
+                  <option>$1 million – $5 million</option>
+                  <option>Over $5 million</option>
+                </select>
+              </label>
+              <label class={label}>
+                Target Delivery Timeline
+                <select class:list={[field, 'mt-2']} name="timeline">
+                  <option>Immediate / Urgent (&lt; 30 days)</option>
+                  <option>30–60 days</option>
+                  <option>60–90 days</option>
+                  <option>Standard (90+ days)</option>
+                </select>
+              </label>
+            </div>
+            <div data-tags>
+              <p class={label}>Approved Manufacturers / Pref. Brands</p>
+              <div class="mt-2 flex flex-wrap items-center gap-2 rounded-sm bg-white px-3 py-2">
+                <ul class="flex flex-wrap gap-2" data-tag-list>
+                  <li
+                    class="bg-brand-100 text-brand-900 flex items-center gap-1 rounded-xl px-3 py-1 text-xs font-semibold"
+                  >
+                    Bosch Rexroth
+                    <button type="button" class="inline-flex size-11 shrink-0 items-center justify-center" data-remove aria-label="Remove Bosch Rexroth"
+                      >×</button
+                    >
+                  </li>
+                  <li
+                    class="bg-brand-100 text-brand-900 flex items-center gap-1 rounded-xl px-3 py-1 text-xs font-semibold"
+                  >
+                    Schneider Electric
+                    <button
+                      type="button"
+                      class="px-1"
+                      data-remove
+                      aria-label="Remove Schneider Electric">×</button
+                    >
+                  </li>
+                </ul>
+                <input
+                  class="min-w-40 flex-1 border-0 py-1 text-base outline-none placeholder:text-[#9ca3af]"
+                  type="text"
+                  placeholder="Type manufacturer & press Enter..."
+                  data-tag-input
+                />
+              </div>
+              <input
+                type="hidden"
+                name="approved_vendors"
+                value="Bosch Rexroth, Schneider Electric"
+                data-tag-value
+              />
+              <p class="text-ink-muted mt-2 text-xs">
+                Press enter to add multiple approved vendor tags.
+              </p>
+            </div>
+          </fieldset>
+
+          <fieldset class="flex flex-col gap-3">
+            <legend class="text-brand-900 flex items-center gap-3 text-2xl font-semibold">
+              <span
+                class="bg-brand-900 flex size-8 items-center justify-center rounded-xl text-sm text-white"
+                >4</span
+              >
+              Sourcing Challenges & Requirements
+            </legend>
+            <label class={label}>
+              Current Sourcing Issues, Allocation Constraints, or Quality Challenges
+              <textarea
+                class:list={[field, 'mt-2 min-h-32']}
+                name="message"
+                required
+                placeholder="Describe lead time bottlenecks, obsolete part numbers, price escalation issues, or strict compliance requirements..."
+              ></textarea>
+            </label>
+          </fieldset>
+
+          <FormMessage />
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <p class="text-ink-muted flex items-center gap-2 text-sm">
+              <img src="/images/icons/lock.svg" alt="" width="13" height="17" />
+              Secure 256-bit Encrypted B2B Submission
+            </p>
+            <button
+              type="submit"
+              class="bg-accent-400 inline-flex items-center gap-2 rounded-sm px-8 py-4 text-sm font-semibold tracking-[0.04em] text-white"
+            >
+              Submit Sourcing Request
+              <img src="/images/icons/upload.svg" alt="" width="9" height="9" />
+            </button>
+          </div>
+        </form>
+
+        <aside class="flex flex-col gap-6 lg:col-span-4">
+          <div class="bg-brand-900 rounded-lg p-8 text-white shadow-lg">
+            <h2 class="text-2xl font-semibold text-[#e8f2ff]">Procurement Desk SLA</h2>
+            <p class="text-brand-300 mt-3 text-sm leading-6">
+              Every strategic sourcing request is assigned a dedicated commodity manager within 30
+              minutes of submission.
+            </p>
+            <ul class="text-brand-300 mt-6 flex flex-col gap-4 text-sm">
+              <li class="flex gap-3">
+                <img
+                  src="/images/icons/bolt.svg"
+                  alt=""
+                  width="17"
+                  height="15"
+                  class="mt-0.5 shrink-0"
+                />
+                <span
+                  ><strong class="text-[#e8f2ff]">Rapid Feasibility Check</strong><br />Initial
+                  supplier match report in 24 hours.</span
+                >
+              </li>
+              <li class="flex gap-3">
+                <img
+                  src="/images/icons/globe.svg"
+                  alt=""
+                  width="12"
+                  height="12"
+                  class="mt-1 shrink-0"
+                />
+                <span
+                  ><strong class="text-[#e8f2ff]">Global Supplier Network</strong><br />Direct
+                  access to 4,200+ audited tier-one factories.</span
+                >
+              </li>
+              <li class="flex gap-3">
+                <img
+                  src="/images/icons/badge.svg"
+                  alt=""
+                  width="13"
+                  height="17"
+                  class="mt-0.5 shrink-0"
+                />
+                <span
+                  ><strong class="text-[#e8f2ff]">Quality & Traceability</strong><br />Full lot
+                  traceability and compliance documentation.</span
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="bg-brand-200 flex items-center gap-4 rounded-lg p-6">
+            <img
+              src="/images/quote-profile.png"
+              alt=""
+              width="80"
+              height="80"
+              class="size-16 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-brand-900 text-sm font-semibold tracking-[0.04em]">
+                Need Immediate Assistance?
+              </p>
+              <p class="text-ink-muted text-sm">
+                Talk directly to our Director of Strategic Procurement.
+              </p>
+              <a
+                href={`tel:${site.business.phoneHref}`}
+                class="text-accent-600 font-bold no-underline"
+              >
+                {site.business.phone}
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-tags]');
+  if (root) {
+    const list = root.querySelector<HTMLUListElement>('[data-tag-list]');
+    const input = root.querySelector<HTMLInputElement>('[data-tag-input]');
+    const hidden = root.querySelector<HTMLInputElement>('[data-tag-value]');
+
+    const sync = () => {
+      if (!list || !hidden) return;
+      const names = [...list.querySelectorAll('li')].map((item) =>
+        (item.childNodes[0]?.textContent ?? '').trim(),
+      );
+      hidden.value = names.filter(Boolean).join(', ');
+    };
+
+    const add = (name: string) => {
+      if (!list || !name) return;
+      const item = document.createElement('li');
+      item.className =
+        'flex items-center gap-1 rounded-xl bg-brand-100 px-3 py-1 text-xs font-semibold text-brand-900';
+      item.append(document.createTextNode(name));
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'px-1';
+      remove.dataset.remove = '';
+      remove.setAttribute('aria-label', `Remove ${name}`);
+      remove.textContent = '×';
+      item.append(remove);
+      list.append(item);
+      sync();
+    };
+
+    input?.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      const name = input.value.trim();
+      if (!name) return;
+      add(name);
+      input.value = '';
+    });
+
+    list?.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLButtonElement) || !target.hasAttribute('data-remove')) return;
+      target.closest('li')?.remove();
+      sync();
+    });
+  }
+</script>

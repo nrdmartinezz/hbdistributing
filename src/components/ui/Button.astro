@@ -17,10 +17,10 @@ const { variant = 'primary', size = 'md', href, class: className, ...rest } = As
 const Tag = href ? 'a' : 'button';
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-brand-600 text-neutral-0 hover:bg-brand-700 border-transparent',
-  secondary: 'bg-transparent text-ink-brand border-brand-600 hover:bg-brand-50',
+  primary: 'bg-accent-600 text-neutral-0 hover:bg-accent-500 border-transparent',
+  secondary: 'bg-transparent text-brand-900 border-2 border-brand-900 hover:bg-brand-100',
   ghost: 'bg-transparent text-ink-base border-transparent hover:bg-neutral-100',
-  inverse: 'bg-neutral-0 text-ink-brand border-transparent hover:bg-brand-50',
+  inverse: 'bg-neutral-0 text-brand-900 border-transparent hover:bg-brand-50',
 };
 
 // min-h keeps every size above the 44px touch target on small screens.
@@ -34,7 +34,7 @@ const sizes: Record<ButtonSize, string> = {
 <Tag
   href={href}
   class:list={[
-    'inline-flex items-center justify-center gap-2 rounded-md border font-medium',
+    'inline-flex items-center justify-center gap-2 rounded-sm border font-semibold tracking-[0.04em]',
     'no-underline transition-colors duration-150',
     'disabled:pointer-events-none disabled:opacity-50',
     variants[variant],

@@ -1,7 +1,6 @@
 /**
- * One nav tree, rendered two ways. `Header` reads it for the simple desktop
- * nav today; `MegaMenu` and `MobileNav` read the same tree in Phase 4, so the
- * upgrade is additive rather than a rewrite.
+ * Homepage nav is the source of truth for every page: Home, Services,
+ * Quote Builder, Resources, Contact, and the Get A Quote action.
  */
 
 export interface NavLink {
@@ -51,85 +50,30 @@ export interface NavigationConfig {
 export const navigation: NavigationConfig = {
   primary: [
     { label: 'Home', href: '/' },
-    {
-      label: 'Services',
-      href: '/services/',
-      panel: {
-        kind: 'mega',
-        columns: [
-          {
-            heading: 'Residential',
-            links: [
-              {
-                label: 'Repairs & Maintenance',
-                href: '/services/repairs/',
-                description: 'Fast turnaround on everyday problems.',
-                icon: 'lucide:wrench',
-              },
-              {
-                label: 'Installations',
-                href: '/services/installations/',
-                description: 'New systems, fitted and tested.',
-                icon: 'lucide:hammer',
-              },
-            ],
-          },
-          {
-            heading: 'Commercial',
-            links: [
-              {
-                label: 'Service Contracts',
-                href: '/services/contracts/',
-                description: 'Scheduled upkeep with priority response.',
-                icon: 'lucide:clipboard-check',
-              },
-              {
-                label: 'Emergency Callout',
-                href: '/services/emergency/',
-                description: 'Around-the-clock cover.',
-                icon: 'lucide:siren',
-              },
-            ],
-          },
-        ],
-        featured: {
-          title: 'Not sure what you need?',
-          body: 'Tell us what is going on and we will point you at the right service.',
-          href: '/contact/',
-          cta: 'Talk to us',
-        },
-      },
-    },
-    {
-      label: 'About',
-      panel: {
-        kind: 'links',
-        links: [
-          { label: 'Our Story', href: '/about/' },
-          { label: 'The Team', href: '/about/team/' },
-          { label: 'Service Area', href: '/about/service-area/' },
-        ],
-      },
-    },
+    { label: 'Services', href: '/services/' },
+    { label: 'Quote Builder', href: '/quote/' },
+    { label: 'Resources', href: '/resources/' },
     { label: 'Contact', href: '/contact/' },
   ],
 
-  cta: { label: 'Request a Quote', href: '/contact/' },
+  cta: { label: 'Get A Quote', href: '/quote/' },
 
   footer: [
     {
-      heading: 'Services',
+      heading: 'Sitemap',
       links: [
-        { label: 'Repairs & Maintenance', href: '/services/repairs/' },
-        { label: 'Installations', href: '/services/installations/' },
-        { label: 'Service Contracts', href: '/services/contracts/' },
+        { label: 'Global Network', href: '/services/' },
+        { label: 'Warehouse Solutions', href: '/services/' },
+        { label: 'Carrier Partnerships', href: '/partners/' },
+        { label: 'Compliance', href: '/services/' },
       ],
     },
     {
-      heading: 'Company',
+      heading: 'Resources',
       links: [
-        { label: 'About', href: '/about/' },
-        { label: 'Contact', href: '/contact/' },
+        { label: 'Client Portal', href: '/contact/' },
+        { label: 'Whitepapers', href: '/resources/' },
+        { label: 'Newsroom', href: '/resources/' },
       ],
     },
   ],
@@ -137,5 +81,6 @@ export const navigation: NavigationConfig = {
   legal: [
     { label: 'Privacy Policy', href: '/privacy/' },
     { label: 'Terms of Service', href: '/terms/' },
+    { label: 'Cookie Policy', href: '/cookie/' },
   ],
 };

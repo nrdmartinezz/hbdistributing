@@ -1,127 +1,247 @@
 ---
-/**
- * Demo home page, assembled entirely from blocks so it doubles as a working
- * example and a build smoke test. `npm run setup` clears this per project.
- */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/blocks/Hero.astro';
-import ServicesGrid from '../components/blocks/ServicesGrid.astro';
-import ProcessSteps from '../components/blocks/ProcessSteps.astro';
-import Stats from '../components/blocks/Stats.astro';
-import Testimonials from '../components/blocks/Testimonials.astro';
-import FAQ from '../components/blocks/FAQ.astro';
-import CTABanner from '../components/blocks/CTABanner.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
 import { site } from '../config/site';
-
-const faqs = [
-  {
-    question: 'Do you offer emergency callouts?',
-    answer: 'Yes — we cover emergencies around the clock, including weekends and holidays.',
-  },
-  {
-    question: 'Are you licensed and insured?',
-    answer: 'Fully licensed and insured. We can supply certificates on request before work starts.',
-  },
-  {
-    question: 'How quickly can you get here?',
-    answer: 'Typically within two hours across the metro area, and same-day everywhere else.',
-  },
-];
+import { Icon } from 'astro-icon/components';
 ---
 
-<BaseLayout faqs={faqs}>
-  <Hero
-    eyebrow={`${site.business.address.locality}, ${site.business.address.region}`}
-    title={site.tagline}
-    body={site.description}
-    bullets={[
-      'Licensed and insured',
-      'Upfront pricing, no surprises',
-      'Work guaranteed for 12 months',
-    ]}
-    actions={[
-      { label: 'Request a quote', href: '/contact/' },
-      { label: site.business.phone, href: `tel:${site.business.phoneHref}`, variant: 'secondary' },
-    ]}
-  />
+<BaseLayout title={site.tagline} description={site.description}>
+  <section class="relative min-h-[520px] overflow-hidden bg-white">
+    <img
+      src="/images/hero-port.png"
+      alt=""
+      width="512"
+      height="279"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30 backdrop-blur-[2px]"
+    >
+    </div>
+    <Container class="relative grid items-center gap-10 py-16 lg:grid-cols-12 lg:py-24">
+      <div class="flex flex-col gap-6 lg:col-span-8">
+        <p
+          class="text-brand-900 bg-brand-900/10 inline-flex w-fit items-center gap-2 rounded-xl px-3 py-1 text-xs font-medium tracking-[0.05em] uppercase shadow-sm"
+        >
+          <img src="/images/icons/globe.svg" alt="" width="12" height="12" />
+          Global supply chain optimization
+        </p>
+        <h1
+          class="text-ink-base max-w-3xl text-4xl leading-tight font-bold tracking-tight md:text-5xl md:leading-[60px]"
+        >
+          Comprehensive Logistics Partnerships for the Modern Era.
+        </h1>
+        <p class="text-ink-muted max-w-2xl text-lg leading-7">{site.description}</p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <Button href="/quote/">
+            Request a Custom Quote
+            <img src="/images/icons/arrow-right.svg" alt="" width="16" height="16" />
+          </Button>
+          <Button href="/services/" variant="secondary">Explore Capabilities</Button>
+        </div>
+      </div>
 
-  <ServicesGrid
-    eyebrow="Services"
-    title="What we do"
-    body="Straightforward work across residential and commercial properties."
-    items={[
-      {
-        icon: 'lucide:wrench',
-        title: 'Repairs & Maintenance',
-        body: 'Same-week appointments for the problems that cannot wait.',
-        href: '/services/repairs/',
-      },
-      {
-        icon: 'lucide:hammer',
-        title: 'Installations',
-        body: 'New systems specified, fitted, and tested to code.',
-        href: '/services/installations/',
-      },
-      {
-        icon: 'lucide:clipboard-check',
-        title: 'Service Contracts',
-        body: 'Scheduled upkeep with priority response when something goes wrong.',
-        href: '/services/contracts/',
-      },
-    ]}
-  />
+      <aside
+        class="rounded-lg bg-[#f7f9ff]/90 p-6 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] backdrop-blur-md lg:col-span-4"
+      >
+        <div
+          class="mb-4 flex size-12 items-center justify-center rounded-xl bg-[#003f1d] shadow-sm"
+        >
+          <img src="/images/icons/check.svg" alt="" width="20" height="12" />
+        </div>
+        <p class="text-brand-900 text-3xl leading-10 font-semibold">99.8%</p>
+        <p class="text-ink-muted">On-Time Delivery Rate (YTD)</p>
+        <div class="mt-4 h-1 overflow-hidden rounded-full bg-[#d1e4fb]">
+          <div
+            class="h-full w-[99.8%] rounded-full bg-[#6bfe9c] shadow-[0_0_8px_rgba(107,254,156,0.6)]"
+          >
+          </div>
+        </div>
+      </aside>
+    </Container>
+  </section>
 
-  <ProcessSteps
-    background="muted"
-    eyebrow="Process"
-    title="How it works"
-    items={[
-      { title: 'Get in touch', body: 'Call or send a message describing the problem.' },
-      { title: 'We assess', body: 'A quick look in person, or from photos where that works.' },
-      { title: 'Fixed quote', body: 'Agreed before any work begins. No surprises later.' },
-      { title: 'Work completed', body: 'Guaranteed for twelve months from the day we finish.' },
-    ]}
-  />
+  <section class="relative overflow-hidden py-20">
+    <div
+      class="from-brand-300/20 pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l to-transparent"
+    >
+    </div>
+    <Container class="relative flex flex-col gap-16">
+      <div class="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+        <div class="max-w-2xl">
+          <p class="text-brand-900 text-sm font-semibold tracking-[0.1em] uppercase">
+            Our unique position
+          </p>
+          <h2 class="text-ink-base mt-4 text-3xl leading-10 font-semibold">
+            Engineered for precision. Built for scale.
+          </h2>
+        </div>
+        <p class="text-ink-muted max-w-md leading-6">
+          Unlike traditional brokers, HB Distributing integrates directly into your procurement
+          ecosystem, acting as an extension of your own operations team.
+        </p>
+      </div>
 
-  <Stats
-    title="By the numbers"
-    items={[
-      { value: '18 yrs', label: 'Serving the region' },
-      { value: '4.9/5', label: 'Average review score' },
-      { value: '2 hrs', label: 'Typical callout response' },
-    ]}
-  />
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          [
+            {
+              icon: '/images/icons/tech.svg',
+              w: 18,
+              h: 20,
+              title: 'Integrated Tech Stack',
+              body: 'Real-time API integrations with major ERPs ensure seamless data flow and zero blind spots in your supply chain.',
+            },
+            {
+              icon: '/images/icons/shield.svg',
+              w: 16,
+              h: 20,
+              title: 'Vetted Carrier Network',
+              body: 'Access to a meticulously curated network of compliance-verified carriers, guaranteeing capacity when you need it most.',
+            },
+            {
+              icon: '/images/icons/chart.svg',
+              w: 22,
+              h: 17,
+              title: 'Predictive Analytics',
+              body: 'Leverage historical data and AI-driven forecasting to anticipate disruptions and optimize routing dynamically.',
+            },
+          ].map((item) => (
+            <article class="bg-brand-100 flex flex-col gap-6 rounded-lg p-8 shadow-sm">
+              <div class="bg-brand-900 flex size-14 items-center justify-center rounded-sm shadow-md">
+                <img src={item.icon} alt="" width={item.w} height={item.h} />
+              </div>
+              <div>
+                <h3 class="text-ink-base text-2xl leading-8 font-semibold">{item.title}</h3>
+                <p class="text-ink-muted mt-2 leading-6">{item.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
 
-  <Testimonials
-    eyebrow="Reviews"
-    title="What clients say"
-    items={[
-      {
-        quote: 'Turned up when they said they would and fixed it on the first visit.',
-        name: 'Dana R.',
-        role: 'Homeowner',
-        rating: 5,
-      },
-      {
-        quote: 'Clear pricing, no upselling, and they cleaned up after themselves.',
-        name: 'Mark T.',
-        role: 'Office manager',
-        rating: 5,
-      },
-      {
-        quote: 'They handle all four of our sites now. Easiest contractor we work with.',
-        name: 'Priya S.',
-        role: 'Facilities lead',
-        rating: 5,
-      },
-    ]}
-  />
+  <section class="border-line-base/20 bg-surface-muted border-t py-20">
+    <Container class="flex flex-col gap-16">
+      <div class="text-center">
+        <p class="text-brand-900 text-sm font-semibold tracking-[0.1em] uppercase">
+          Core competencies
+        </p>
+        <h2 class="text-ink-base mt-4 text-3xl leading-10 font-semibold">
+          End-to-End Logistics Services
+        </h2>
+      </div>
 
-  <FAQ eyebrow="FAQ" title="Common questions" items={faqs} schema={false} />
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-12">
+        <a
+          href="/services/"
+          class="group relative min-h-[420px] overflow-hidden rounded-lg shadow-md md:col-span-2 lg:col-span-8 lg:row-span-2"
+        >
+          <img
+            src="/images/service-ocean.png"
+            alt="Shipping containers stacked at a port terminal"
+            width="512"
+            height="279"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            class="from-brand-900/90 via-brand-900/40 absolute inset-0 bg-gradient-to-t to-transparent"
+          >
+          </div>
+          <div class="absolute inset-x-0 bottom-0 p-8 text-white">
+            <p
+              class="w-fit rounded-sm bg-white/20 px-2 py-1 text-xs tracking-wide uppercase backdrop-blur-sm"
+            >
+              International
+            </p>
+            <h3 class="mt-3 text-2xl leading-8 font-semibold">Global Ocean Freight</h3>
+            <p class="mt-1 max-w-md text-base leading-6 text-white/90">
+              FCL and LCL shipping solutions with dedicated customs clearance teams and real-time
+              container tracking across major trade lanes.
+            </p>
+          </div>
+        </a>
 
-  <CTABanner
-    title="Ready to get started?"
-    body="Tell us what you need and we will come back to you the same day."
-    actions={[{ label: 'Request a quote', href: '/contact/' }]}
-  />
+        <article
+          class="relative flex min-h-56 flex-col justify-between overflow-hidden rounded-lg bg-[#f7f9ff] p-6 shadow-sm lg:col-span-4"
+        >
+          <div class="absolute -top-4 -right-4 size-24 rounded-bl-xl bg-[#4ae183]/10"></div>
+          <div class="flex size-10 items-center justify-center rounded-sm bg-[#003f1d]">
+            <img src="/images/icons/truck-green.svg" alt="" width="22" height="16" />
+          </div>
+          <div>
+            <h3 class="text-ink-base text-2xl leading-8 font-semibold">Domestic OTR</h3>
+            <p class="text-ink-muted mt-1 text-sm leading-5">
+              Full Truckload (FTL) and Less-than-Truckload (LTL) capacity across North America.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="flex min-h-56 flex-col justify-between rounded-lg bg-[#1b365d] p-6 shadow-sm lg:col-span-4"
+        >
+          <div
+            class="flex size-10 items-center justify-center rounded-sm bg-white/10 backdrop-blur-sm"
+          >
+            <img src="/images/icons/warehouse.svg" alt="" width="20" height="18" />
+          </div>
+          <div>
+            <h3 class="text-2xl leading-8 font-semibold text-white">Contract Warehousing</h3>
+            <p class="mt-1 text-sm leading-5 text-white/80">
+              Strategic storage, cross-docking, and distribution solutions to minimize transit
+              times.
+            </p>
+          </div>
+        </article>
+
+        <a
+          href="/services/#electronics"
+          class="bg-brand-100 flex flex-col justify-between gap-6 rounded-lg p-6 no-underline shadow-sm md:col-span-2 lg:col-span-12 lg:flex-row lg:items-center"
+        >
+          <div class="flex items-start gap-4">
+            <div class="bg-brand-900 flex size-10 shrink-0 items-center justify-center rounded-sm">
+              <Icon name="lucide:cpu" class="size-5 text-white" aria-hidden="true" />
+            </div>
+            <div>
+              <h3 class="text-ink-base text-2xl leading-8 font-semibold">Electronics Distribution</h3>
+              <p class="text-ink-muted mt-1 max-w-2xl text-sm leading-5">
+                Component and assembly supply with lot-level traceability for global manufacturing
+                programs.
+              </p>
+            </div>
+          </div>
+          <span class="text-brand-900 inline-flex min-h-11 items-center gap-2 text-sm font-semibold tracking-[0.04em]">
+            Learn More
+            <img src="/images/icons/globe-line.svg" alt="" width="13" height="13" />
+          </span>
+        </a>
+      </div>
+    </Container>
+  </section>
+
+  <section class="bg-brand-900 relative overflow-hidden px-0 py-16 text-white">
+    <img
+      src="/images/icons/abstract.svg"
+      alt=""
+      width="640"
+      height="264"
+      class="pointer-events-none absolute top-0 right-0 hidden lg:block"
+    />
+    <Container layout="row" class="relative items-center justify-between gap-8 max-md:flex-col">
+      <div class="max-w-xl">
+        <h2 class="text-3xl leading-10 font-semibold">
+          Ready to optimize<br />your shipping spend?
+        </h2>
+        <p class="mt-2 text-base leading-6 text-white/80">
+          Use our intelligent quote builder to get accurate rates and capacity forecasts instantly.
+        </p>
+      </div>
+      <Button href="/quote/" class="px-8 py-4">
+        Launch Quote Builder
+        <img src="/images/icons/launch.svg" alt="" width="20" height="20" />
+      </Button>
+    </Container>
+  </section>
 </BaseLayout>

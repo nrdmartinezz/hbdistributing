@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Button from '../components/ui/Button.astro';
+import { Icon } from 'astro-icon/components';
+
+type Capability = {
+  title: string;
+  body: string;
+  href: string;
+  id?: string;
+  icon?: string;
+  w?: number;
+  h?: number;
+  lucide?: string;
+};
+
+const capabilities: Capability[] = [
+  {
+    icon: '/images/icons/box.svg',
+    w: 27,
+    h: 27,
+    title: '01. Product Distribution',
+    body: 'Reliable delivery of industrial products when and where you need them.',
+    href: '/contact/',
+  },
+  {
+    icon: '/images/icons/layers.svg',
+    w: 27,
+    h: 27,
+    title: '02. Strategic Sourcing',
+    body: 'Access to a broad manufacturer network for competitive and reliable supply.',
+    href: '/quote/',
+  },
+  {
+    icon: '/images/icons/truck-line.svg',
+    w: 24,
+    h: 25,
+    title: '03. Vendor Consolidation',
+    body: 'Streamline purchasing by reducing the number of suppliers you manage.',
+    href: '/partners/',
+  },
+  {
+    icon: '/images/icons/search-line.svg',
+    w: 29,
+    h: 21,
+    title: '04. Logistics Coordination',
+    body: 'Coordinated shipping and delivery support to keep projects on schedule.',
+    href: '/contact/',
+  },
+  {
+    icon: '/images/icons/users.svg',
+    w: 24,
+    h: 24,
+    title: '05. Hard-to-Find Product Support',
+    body: 'Specialized sourcing for hard-to-locate or discontinued industrial items.',
+    href: '/quote/',
+  },
+  {
+    icon: '/images/icons/check-circle.svg',
+    w: 29,
+    h: 28,
+    title: '06. Customer-Specific Supply Programs',
+    body: 'Customized programs built around your unique operational requirements.',
+    href: '/contact/',
+  },
+  {
+    lucide: 'lucide:cpu',
+    title: '07. Electronics Distribution',
+    body: 'Component and assembly supply with lot-level traceability for global manufacturing programs.',
+    href: '/contact/',
+    id: 'electronics',
+  },
+];
+---
+
+<BaseLayout
+  title="Precision Logistics for Global Scale"
+  description="Comprehensive supply chain solutions designed to optimize flow, reduce overhead, and scale seamlessly with your enterprise demands."
+>
+  <section class="py-20">
+    <Container align="center" width="narrow">
+      <p class="text-brand-900 text-sm font-semibold tracking-[0.1em] uppercase">
+        Our capabilities
+      </p>
+      <h1 class="text-ink-base mt-4 text-4xl leading-tight font-bold md:text-5xl">
+        Precision Logistics for Global Scale.
+      </h1>
+      <p class="text-ink-muted mt-4 text-lg leading-7">
+        Comprehensive supply chain solutions designed to optimize flow, reduce overhead, and scale
+        seamlessly with your enterprise demands.
+      </p>
+    </Container>
+
+    <Container class="mt-16">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          capabilities.map((item) => (
+            <article id={item.id} class="bg-brand-100 flex scroll-mt-36 flex-col rounded-lg p-6 shadow-sm md:p-8">
+              {item.lucide ? (
+                <Icon name={item.lucide} class="text-brand-900 size-7" aria-hidden="true" />
+              ) : (
+                <img src={item.icon} alt="" width={item.w} height={item.h} />
+              )}
+              <h2 class="text-ink-base mt-6 text-xl font-semibold">{item.title}</h2>
+              <p class="text-ink-muted mt-2 flex-1 leading-6">{item.body}</p>
+              <a
+                href={item.href}
+                class="text-brand-900 mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold tracking-[0.04em] no-underline"
+              >
+                Learn More
+                <img src="/images/icons/globe-line.svg" alt="" width="13" height="13" />
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <section class="pb-20">
+    <Container class="grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <p class="text-accent-600 text-sm font-semibold tracking-[0.1em] uppercase">
+          Technology advantage
+        </p>
+        <h2 class="text-ink-base mt-3 text-3xl leading-10 font-semibold">
+          Visibility at Every Node.
+        </h2>
+        <p class="text-ink-muted mt-4 leading-7">
+          Our proprietary Control Tower platform aggregates data from carriers, warehouses, and
+          ports. Experience predictive ETA tracking, automated customs documentation, and exception
+          management alerts before delays happen.
+        </p>
+        <ul class="mt-6 flex flex-col gap-3">
+          {
+            [
+              'API/EDI integration with major ERPs (SAP, Oracle, NetSuite)',
+              'Machine learning predictive capacity forecasting',
+              'Real-time SKU-level inventory tracking globally',
+            ].map((item) => (
+              <li class="text-ink-base flex items-start gap-3">
+                <img src="/images/icons/check-list.svg" alt="" width="20" height="22" class="shrink-0" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <img
+        src="/images/services-tower.png"
+        alt="Operations floor with live logistics dashboards"
+        width="512"
+        height="279"
+        class="h-full max-h-[420px] w-full rounded-lg object-cover shadow-lg"
+      />
+    </Container>
+  </section>
+
+  <section class="bg-brand-900 py-16 text-center text-white">
+    <Container class="items-center">
+      <h2 class="text-3xl leading-10 font-semibold md:text-4xl">
+        Ready to Optimize Your Logistics?
+      </h2>
+      <p class="mx-auto mt-3 max-w-2xl text-white/80">
+        Partner with HB Distributing to build a resilient, cost-effective supply chain tailored to
+        your specific industry requirements.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <Button href="/contact/">Request a Consultation</Button>
+        <a
+          href="/quote/"
+          class="inline-flex min-h-12 items-center justify-center rounded-sm border-2 border-white px-6 text-sm font-semibold tracking-[0.04em] text-white no-underline hover:bg-white/10"
+        >
+          Build a Quote
+        </a>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

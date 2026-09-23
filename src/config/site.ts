@@ -93,35 +93,30 @@ export interface SiteConfig {
 
 export const site: SiteConfig = {
   url: 'https://example.com',
-  name: 'Demo Business',
-  legalName: 'Demo Business LLC',
-  tagline: 'Straightforward work, done right the first time.',
+  name: 'HB Distributing',
+  legalName: 'HB Distributing',
+  tagline: 'Comprehensive logistics partnerships for the modern era.',
   description:
-    'Demo Business is a placeholder used by the starter template. Replace this copy during project setup.',
+    "We don't just move freight; we engineer resilient supply chains. Experience precision, transparency, and tailored solutions designed to drive your B2B operations forward globally.",
   locale: 'en-US',
 
   business: {
     schemaType: 'LocalBusiness',
-    phone: '(555) 010-4477',
-    phoneHref: '+15550104477',
-    email: 'hello@example.com',
+    phone: '+1 (800) 555-0199',
+    phoneHref: '+18005550199',
+    email: 'support@hbdistributing.com',
     address: {
-      street: '1200 Market Street, Suite 400',
-      locality: 'Columbus',
-      region: 'OH',
-      postalCode: '43215',
+      street: '1200 Logistics Way, Suite 400',
+      locality: 'Chicago',
+      region: 'IL',
+      postalCode: '60601',
       country: 'US',
     },
-    geo: { latitude: 39.9612, longitude: -82.9988 },
-    hours: ['Mo-Fr 08:00-17:00', 'Sa 09:00-13:00'],
-    priceRange: '$$',
+    geo: { latitude: 41.8781, longitude: -87.6298 },
+    hours: ['Mo-Fr 08:00-18:00'],
   },
 
-  social: {
-    facebook: 'https://facebook.com/example',
-    instagram: 'https://instagram.com/example',
-    linkedin: 'https://linkedin.com/company/example',
-  },
+  social: {},
 
   defaultOgImage: '/og-default.png',
 

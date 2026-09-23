@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import Container from '../components/ui/Container.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Section spacing="lg">
+    <Container width="reading" class="gap-4">
+      <h1 class="text-ink-base text-4xl font-semibold">{title}</h1>
+      <slot />
+    </Container>
+  </Section>
+</BaseLayout>

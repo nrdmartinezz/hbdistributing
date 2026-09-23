@@ -23,11 +23,11 @@ const isCurrent = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 
 const triggerClass =
-  'inline-flex min-h-11 items-center gap-1 rounded-md px-3 text-base no-underline text-ink-base hover:bg-neutral-100 aria-[current=page]:text-ink-brand aria-[current=page]:font-medium';
+  'inline-flex min-h-11 items-center gap-1 px-1 text-sm tracking-[0.04em] whitespace-nowrap text-brand-900 no-underline hover:text-accent-600 aria-[current=page]:font-semibold';
 ---
 
-<nav aria-label="Primary" class="mega hidden md:block">
-  <ul class="flex items-center gap-1">
+<nav aria-label="Primary" class="mega hidden shrink-0 md:block">
+  <ul class="flex items-center gap-3 lg:gap-6">
     {
       navigation.primary.map((item, index) => {
         const panelId = `mega-panel-${index}`;
