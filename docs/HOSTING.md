@@ -38,10 +38,11 @@ the same page.
    | `FTP_HOST`        | cPanel FTP hostname                                           |
    | `FTP_USER`        | The scoped FTP account                                        |
    | `FTP_PW`          | Its password                                                  |
+   | `FTP_SERVER_DIR`  | Remote path from the FTP home (variable or secret), e.g. `public_html/` |
    | `SITE_URL`        | `https://example.com` (variable or secret, no trailing slash) |
 
-   The FTP account home must already be the document root. The workflow
-   uploads to `./`.
+   `FTP_SERVER_DIR` is the upload path. A blank value uploads to `./`, which
+   is correct only when the FTP account home is already the document root.
 
 5. Indexing is off until launch. The deploy sets `ALLOW_INDEXING=false`, which
    emits `noindex` on every page, a `Disallow: /` robots file, and no sitemap.

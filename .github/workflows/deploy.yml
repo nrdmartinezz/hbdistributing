@@ -24,7 +24,7 @@ jobs:
           FTP_HOST_RAW: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
           FTP_USER_RAW: ${{ secrets.FTP_USER || secrets.FTP_USERNAME }}
           FTP_PW_RAW: ${{ secrets.FTP_PW || secrets.FTP_PASSWORD }}
-          FTP_DIR_RAW: ${{ secrets.FTP_SERVER_DIR }}
+          FTP_DIR_RAW: ${{ vars.FTP_SERVER_DIR || secrets.FTP_SERVER_DIR }}
         run: |
           trim() {
             printf '%s' "$1" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
@@ -80,6 +80,7 @@ jobs:
 
           echo "Production settings found. Indexing is off."
           echo "SITE_URL=$SITE_URL"
+          echo "FTP path: $dir"
 
       - uses: actions/checkout@v4
 
@@ -110,7 +111,6 @@ jobs:
           security: loose
           port: 21
           local-dir: ./dist/
-          # Account home is already the document root, same as the other sites.
           server-dir: ${{ env.FTP_DIR }}
           exclude: |
             **/.git*
