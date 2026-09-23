@@ -21,20 +21,37 @@ jobs:
     steps:
       - name: Check deploy settings
         env:
-          FTP_HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
-          FTP_USER: ${{ secrets.FTP_USER || secrets.FTP_USERNAME }}
-          FTP_PW: ${{ secrets.FTP_PW || secrets.FTP_PASSWORD }}
+          FTP_HOST_RAW: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
+          FTP_USER_RAW: ${{ secrets.FTP_USER || secrets.FTP_USERNAME }}
+          FTP_PW_RAW: ${{ secrets.FTP_PW || secrets.FTP_PASSWORD }}
+          FTP_DIR_RAW: ${{ secrets.FTP_SERVER_DIR }}
         run: |
+          trim() {
+            printf '%s' "$1" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
+          }
+          host=$(trim "$FTP_HOST_RAW")
+          host="${host#ftp://}"
+          host="${host#ftps://}"
+          host="${host%/}"
+          user=$(trim "$FTP_USER_RAW")
+          pass=$(trim "$FTP_PW_RAW")
+          dir=$(trim "$FTP_DIR_RAW")
+          if [ -z "$dir" ]; then dir="./"; fi
+          case "$dir" in
+            */) ;;
+            *) dir="${dir}/" ;;
+          esac
+
           missing=0
-          if [ -z "$FTP_HOST" ]; then
+          if [ -z "$host" ]; then
             echo "::error title=Missing FTP host::The production environment needs an FTP_HOST secret."
             missing=1
           fi
-          if [ -z "$FTP_USER" ]; then
+          if [ -z "$user" ]; then
             echo "::error title=Missing FTP user::The production environment needs an FTP_USER secret."
             missing=1
           fi
-          if [ -z "$FTP_PW" ]; then
+          if [ -z "$pass" ]; then
             echo "::error title=Missing FTP password::The production environment needs an FTP_PW secret."
             missing=1
           fi
@@ -42,11 +59,27 @@ jobs:
             echo "::error title=Missing SITE_URL::The production environment needs a SITE_URL variable or secret."
             missing=1
           fi
-          if [ "$missing" -eq 0 ]; then
-            echo "Production settings found. Indexing is off."
-            echo "SITE_URL=$SITE_URL"
+          if [ "$missing" -ne 0 ]; then
+            exit "$missing"
           fi
-          exit "$missing"
+
+          {
+            echo "FTP_HOST<<EOF_HOST"
+            echo "$host"
+            echo "EOF_HOST"
+            echo "FTP_USER<<EOF_USER"
+            echo "$user"
+            echo "EOF_USER"
+            echo "FTP_PW<<EOF_PW"
+            echo "$pass"
+            echo "EOF_PW"
+            echo "FTP_DIR<<EOF_DIR"
+            echo "$dir"
+            echo "EOF_DIR"
+          } >> "$GITHUB_ENV"
+
+          echo "Production settings found. Indexing is off."
+          echo "SITE_URL=$SITE_URL"
 
       - uses: actions/checkout@v4
 
@@ -66,15 +99,37 @@ jobs:
       - run: npm run build
 
       - name: FTP deploy
+        id: ftps
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USER || secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PW || secrets.FTP_PASSWORD }}
+          server: ${{ env.FTP_HOST }}
+          username: ${{ env.FTP_USER }}
+          password: ${{ env.FTP_PW }}
           protocol: ftps
+          security: loose
+          port: 21
           local-dir: ./dist/
           # Account home is already the document root, same as the other sites.
-          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          server-dir: ${{ env.FTP_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            cgi-bin/**
+
+      # Some cPanel accounts reject FTPS with 530 and accept plain FTP on port 21.
+      - name: FTP deploy over plain FTP
+        if: steps.ftps.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ env.FTP_HOST }}
+          username: ${{ env.FTP_USER }}
+          password: ${{ env.FTP_PW }}
+          protocol: ftp
+          port: 21
+          local-dir: ./dist/
+          server-dir: ${{ env.FTP_DIR }}
           exclude: |
             **/.git*
             **/.git*/**
