@@ -81,7 +81,7 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
   <section class="pb-20">
     <Container>
       <form
-        class="mx-auto flex w-full max-w-4xl flex-col gap-8 rounded-lg bg-white p-8 shadow-md md:p-10"
+        class="mx-auto flex w-full max-w-4xl min-w-0 flex-col gap-8 rounded-lg bg-white p-5 shadow-md md:p-10"
         action={action}
         method="POST"
         enctype="multipart/form-data"
@@ -225,7 +225,12 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
               >Drag and drop your line card or catalog</span
             >
             <span class="text-ink-muted text-sm">Supports PDF, XLSX, or CSV up to 25MB</span>
-            <input class="mt-4 max-w-full text-sm" type="file" name="catalog" accept=".pdf,.xlsx,.csv" />
+            <input
+              class="mt-4 block min-h-11 w-full max-w-full min-w-0 text-sm"
+              type="file"
+              name="catalog"
+              accept=".pdf,.xlsx,.csv"
+            />
           </label>
         </fieldset>
 

@@ -27,7 +27,7 @@ const positioned = sticky !== 'static';
 <header
   data-sticky={sticky}
   class:list={[
-    'group/header border-line-base z-50 w-full border-b bg-white shadow-[0_1px_4px_rgba(0,0,0,0.04)] backdrop-blur-md',
+    'group/header border-line-base z-50 w-full border-b bg-white shadow-[0_1px_4px_rgba(0,0,0,0.04)]',
     // The mega panel is absolutely positioned against the header, so the header
     // must be a positioned ancestor even when it isn't sticky.
     positioned ? 'sticky top-0' : 'relative',
@@ -49,7 +49,11 @@ const positioned = sticky !== 'static';
     <div class="flex shrink-0 items-center gap-2">
       {
         navigation.cta && (
-          <Button href={navigation.cta.href} size="sm" class="shrink-0 px-4 whitespace-nowrap lg:px-6 max-md:hidden">
+          <Button
+            href={navigation.cta.href}
+            size="sm"
+            class="shrink-0 px-4 whitespace-nowrap max-md:hidden lg:px-6"
+          >
             {navigation.cta.label}
           </Button>
         )

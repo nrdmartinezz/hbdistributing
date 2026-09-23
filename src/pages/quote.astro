@@ -41,9 +41,9 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
         </p>
       </div>
 
-      <div class="mt-10 grid items-start gap-6 lg:grid-cols-12">
+      <div class="mt-10 grid min-w-0 items-start gap-6 lg:grid-cols-12">
         <form
-          class="flex flex-col gap-8 rounded-lg bg-[#edf4ff] p-8 shadow-sm lg:col-span-8"
+          class="flex min-w-0 flex-col gap-8 rounded-lg bg-[#edf4ff] p-5 shadow-sm md:p-8 lg:col-span-8"
           action={action}
           method="POST"
           enctype="multipart/form-data"
@@ -135,7 +135,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                 >Maximum file size: 50MB (CSV, XLSX, PDF, CAD)</span
               >
               <input
-                class="mt-4 text-sm"
+                class="mt-4 block min-h-11 w-full max-w-full min-w-0 text-sm"
                 type="file"
                 name="bom"
                 accept=".csv,.xlsx,.pdf,.dwg,.dxf,.step,.stp"
@@ -181,8 +181,11 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                     class="bg-brand-100 text-brand-900 flex items-center gap-1 rounded-xl px-3 py-1 text-xs font-semibold"
                   >
                     Bosch Rexroth
-                    <button type="button" class="inline-flex size-11 shrink-0 items-center justify-center" data-remove aria-label="Remove Bosch Rexroth"
-                      >×</button
+                    <button
+                      type="button"
+                      class="inline-flex size-11 shrink-0 items-center justify-center"
+                      data-remove
+                      aria-label="Remove Bosch Rexroth">×</button
                     >
                   </li>
                   <li
@@ -191,14 +194,14 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                     Schneider Electric
                     <button
                       type="button"
-                      class="px-1"
+                      class="inline-flex size-11 shrink-0 items-center justify-center"
                       data-remove
                       aria-label="Remove Schneider Electric">×</button
                     >
                   </li>
                 </ul>
                 <input
-                  class="min-w-40 flex-1 border-0 py-1 text-base outline-none placeholder:text-[#9ca3af]"
+                  class="min-h-11 min-w-0 flex-1 basis-40 border-0 py-2 text-base outline-none placeholder:text-[#9ca3af]"
                   type="text"
                   placeholder="Type manufacturer & press Enter..."
                   data-tag-input
@@ -317,7 +320,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
               </p>
               <a
                 href={`tel:${site.business.phoneHref}`}
-                class="text-accent-600 font-bold no-underline"
+                class="text-accent-600 inline-flex min-h-11 items-center font-bold no-underline"
               >
                 {site.business.phone}
               </a>
@@ -352,7 +355,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
       item.append(document.createTextNode(name));
       const remove = document.createElement('button');
       remove.type = 'button';
-      remove.className = 'px-1';
+      remove.className = 'inline-flex size-11 shrink-0 items-center justify-center';
       remove.dataset.remove = '';
       remove.setAttribute('aria-label', `Remove ${name}`);
       remove.textContent = '×';

@@ -25,7 +25,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
             <img src="/images/icons/pin.svg" alt="" width="20" height="18" />
             Global communications
           </p>
-          <h1 class="text-brand-900 mt-2 text-5xl font-semibold">Contact HBDI</h1>
+          <h1 class="text-brand-900 mt-2 text-4xl font-semibold md:text-5xl">Contact HBDI</h1>
         </div>
         <p class="text-ink-muted max-w-md justify-self-end text-right leading-7 max-lg:text-left">
           Connect directly with our logistics specialists, regional headquarters, or departmental
@@ -36,7 +36,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
       <div class="grid items-start gap-6 lg:grid-cols-12">
         <form
           id="inquiry"
-          class="relative flex flex-col gap-6 overflow-hidden rounded-lg bg-[#eef5ff] p-8 lg:col-span-8"
+          class="relative flex min-w-0 flex-col gap-6 overflow-hidden rounded-lg bg-[#eef5ff] p-5 md:p-8 lg:col-span-8"
           action={action}
           method="POST"
           data-site-form
@@ -158,7 +158,9 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                     Phone support
                   </p>
                   <p class="text-[#e8f2ff]">
-                    <a href={`tel:${site.business.phoneHref}`} class="text-[#e8f2ff] no-underline"
+                    <a
+                      href={`tel:${site.business.phoneHref}`}
+                      class="inline-flex min-h-11 items-center text-[#e8f2ff] no-underline"
                       >{site.business.phone}</a
                     ><br />
                     Mon-Fri: 8:00 AM - 6:00 PM<br />CST
@@ -172,10 +174,14 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                     Direct email
                   </p>
                   <p class="text-[#e8f2ff]">
-                    <a href="mailto:support@hbdistributing.com" class="text-[#e8f2ff] no-underline"
+                    <a
+                      href="mailto:support@hbdistributing.com"
+                      class="inline-flex min-h-11 items-center break-all text-[#e8f2ff] no-underline"
                       >support@hbdistributing.com</a
                     ><br />
-                    <a href="mailto:sales@hbdistributing.com" class="text-[#e8f2ff] no-underline"
+                    <a
+                      href="mailto:sales@hbdistributing.com"
+                      class="inline-flex min-h-11 items-center break-all text-[#e8f2ff] no-underline"
                       >sales@hbdistributing.com</a
                     >
                   </p>

@@ -55,14 +55,17 @@ import { site } from '../../config/site';
             {site.business.address.postalCode}
           </li>
           <li>
-            <a href={`mailto:${site.business.email}`} class="hover:text-brand-900 inline-flex min-h-11 items-center no-underline">
+            <a
+              href={`mailto:${site.business.email}`}
+              class="hover:text-brand-900 inline-flex min-h-11 items-center no-underline"
+            >
               {site.business.email}
             </a>
           </li>
           <li>
             <a
               href={`tel:${site.business.phoneHref}`}
-              class="text-accent-600 font-bold no-underline"
+              class="text-accent-600 inline-flex min-h-11 items-center font-bold no-underline"
             >
               {site.business.phone}
             </a>
@@ -79,7 +82,10 @@ import { site } from '../../config/site';
         {
           navigation.legal.map((link) => (
             <li>
-              <a href={link.href} class="text-ink-muted hover:text-brand-900 no-underline">
+              <a
+                href={link.href}
+                class="text-ink-muted hover:text-brand-900 inline-flex min-h-11 items-center no-underline"
+              >
                 {link.label}
               </a>
             </li>

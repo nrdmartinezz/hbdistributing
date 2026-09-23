@@ -96,7 +96,10 @@ const capabilities: Capability[] = [
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
           capabilities.map((item) => (
-            <article id={item.id} class="bg-brand-100 flex scroll-mt-36 flex-col rounded-lg p-6 shadow-sm md:p-8">
+            <article
+              id={item.id}
+              class="bg-brand-100 flex scroll-mt-36 flex-col rounded-lg p-6 shadow-sm md:p-8"
+            >
               {item.lucide ? (
                 <Icon name={item.lucide} class="text-brand-900 size-7" aria-hidden="true" />
               ) : (
@@ -140,7 +143,13 @@ const capabilities: Capability[] = [
               'Real-time SKU-level inventory tracking globally',
             ].map((item) => (
               <li class="text-ink-base flex items-start gap-3">
-                <img src="/images/icons/check-list.svg" alt="" width="20" height="22" class="shrink-0" />
+                <img
+                  src="/images/icons/check-list.svg"
+                  alt=""
+                  width="20"
+                  height="22"
+                  class="shrink-0"
+                />
                 {item}
               </li>
             ))
