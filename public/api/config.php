@@ -13,5 +13,9 @@ return [
             'subject' => 'New enquiry — HB Distributing',
             'notification' => 'notification-contact.html',
         ],
+        'sourcing' => [
+            'subject' => 'Strategic sourcing request — HB Distributing',
+            'notification' => 'notification-sourcing.html',
+        ],
     ],
 ];

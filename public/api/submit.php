@@ -62,6 +62,20 @@ $phone = trim((string) ($_POST['phone'] ?? ''));
 $message = trim((string) ($_POST['message'] ?? ''));
 $hearAbout = trim((string) ($_POST['hear_about_us'] ?? ''));
 $service = trim((string) ($_POST['service'] ?? ''));
+$company = trim((string) ($_POST['company'] ?? ''));
+$annualVolume = trim((string) ($_POST['annual_volume'] ?? ''));
+$timeline = trim((string) ($_POST['timeline'] ?? ''));
+$approvedVendors = trim((string) ($_POST['approved_vendors'] ?? ''));
+
+$upload = null;
+$bom = $_FILES['bom'] ?? null;
+if (is_array($bom)) {
+    try {
+        $upload = storeFormUpload($bom);
+    } catch (RuntimeException $e) {
+        jsonError(400, $e->getMessage());
+    }
+}
 
 $reserved = [
     'form_type',
@@ -72,6 +86,10 @@ $reserved = [
     'hear_about_us',
     'service',
     'services',
+    'company',
+    'annual_volume',
+    'timeline',
+    'approved_vendors',
     'g-recaptcha-response',
     '_gotcha',
     '_next',
@@ -93,6 +111,9 @@ foreach ($_POST as $key => $value) {
     $extraLines[] = $label . ': ' . $value;
 }
 foreach ($_FILES as $key => $file) {
+    if ($key === 'bom') {
+        continue;
+    }
     $filename = trim((string) ($file['name'] ?? ''));
     if ($filename === '') {
         continue;
@@ -144,7 +165,32 @@ $timezone = (string) ($config['timezone'] ?? 'America/New_York');
 $submittedAt = (new DateTimeImmutable('now', new DateTimeZone($timezone)))->format('M j, Y g:i A T');
 
 $subjectLine = $formMail['subject'];
+if ($formType === 'sourcing' && $company !== '') {
+    $subjectLine = 'Strategic sourcing request — ' . str_replace(["\r", "\n"], ' ', $company);
+}
 $autoreplySubject = $formMail['autoreply_subject'];
+
+$fileUrl = '';
+$fileName = '';
+if ($upload !== null) {
+    $fileName = $upload['name'];
+    $origin = rtrim((string) ($config['site_url'] ?? ''), '/');
+    if ($origin === '') {
+        $host = trim((string) ($_SERVER['HTTP_HOST'] ?? ''));
+        $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+        if ($host !== '') {
+            $origin = ($https ? 'https' : 'http') . '://' . $host;
+        }
+    }
+    if ($origin !== '') {
+        $fileUrl = $origin . '/api/download.php?token=' . rawurlencode($upload['token']);
+    }
+}
+$fileBlock = '<span style="font-size:16px;color:#44474e">No file was uploaded.</span>';
+if ($fileUrl !== '' && $fileName !== '') {
+    $fileBlock = '<a href="' . escapeHtml($fileUrl) . '" style="display:inline-block;background-color:#a63b00;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:12px 18px;border-radius:4px">Download ' . escapeHtml($fileName) . '</a>';
+}
 
 $templateVars = [
     'subject_line' => escapeHtml($subjectLine),
@@ -152,6 +198,11 @@ $templateVars = [
     'email' => escapeHtml($email),
     'email_raw' => $email,
     'phone' => escapeHtml($phoneDisplay),
+    'company' => escapeHtml($company !== '' ? $company : '—'),
+    'annual_volume' => escapeHtml($annualVolume !== '' ? $annualVolume : '—'),
+    'timeline' => escapeHtml($timeline !== '' ? $timeline : '—'),
+    'approved_vendors' => escapeHtml($approvedVendors !== '' ? $approvedVendors : '—'),
+    'file_block' => $fileBlock,
     'services' => escapeHtml($servicesDisplay),
     'hear_about_us' => escapeHtml($hearAboutDisplay),
     'message' => escapeHtml($message),

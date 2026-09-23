@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Strategic sourcing request — {{site_name}}</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background-color: #f7f9ff;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #091d2e;
+    "
+  >
+    <table
+      role="presentation"
+      width="100%"
+      cellspacing="0"
+      cellpadding="0"
+      style="background-color: #f7f9ff; padding: 32px 16px"
+    >
+      <tr>
+        <td align="center">
+          <table
+            role="presentation"
+            width="600"
+            cellspacing="0"
+            cellpadding="0"
+            style="
+              max-width: 600px;
+              width: 100%;
+              background-color: #ffffff;
+              border: 1px solid #d5e3f7;
+            "
+          >
+            <tr>
+              <td style="background-color: #002046; padding: 28px 32px 24px">
+                <p
+                  style="
+                    margin: 0 0 8px;
+                    font-size: 11px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    color: #aec7f7;
+                    font-weight: 700;
+                  "
+                >
+                  Strategic sourcing request
+                </p>
+                <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #ffffff">
+                  {{company}}
+                </h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 24px 32px 8px">
+                <p
+                  style="
+                    margin: 0 0 16px;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    color: #44474e;
+                    font-weight: 700;
+                  "
+                >
+                  Uploaded file
+                </p>
+                {{file_block}}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 32px 8px">
+                <p
+                  style="
+                    margin: 16px 0 8px;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    color: #44474e;
+                    font-weight: 700;
+                  "
+                >
+                  Contact
+                </p>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        width: 38%;
+                        font-size: 13px;
+                        color: #44474e;
+                      "
+                    >
+                      Name
+                    </td>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 15px;
+                        color: #091d2e;
+                        font-weight: 700;
+                      "
+                    >
+                      {{name}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 13px;
+                        color: #44474e;
+                      "
+                    >
+                      Email
+                    </td>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #e3efff; font-size: 15px">
+                      <a
+                        href="mailto:{{email_raw}}"
+                        style="color: #002046; font-weight: 700; text-decoration: none"
+                        >{{email}}</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 13px;
+                        color: #44474e;
+                      "
+                    >
+                      Phone
+                    </td>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 15px;
+                        color: #091d2e;
+                      "
+                    >
+                      {{phone}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 32px 8px">
+                <p
+                  style="
+                    margin: 16px 0 8px;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    color: #44474e;
+                    font-weight: 700;
+                  "
+                >
+                  Requirements
+                </p>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        width: 38%;
+                        font-size: 13px;
+                        color: #44474e;
+                      "
+                    >
+                      Annual volume
+                    </td>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 15px;
+                        color: #091d2e;
+                      "
+                    >
+                      {{annual_volume}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 13px;
+                        color: #44474e;
+                      "
+                    >
+                      Timeline
+                    </td>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 15px;
+                        color: #091d2e;
+                      "
+                    >
+                      {{timeline}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 13px;
+                        color: #44474e;
+                      "
+                    >
+                      Approved vendors
+                    </td>
+                    <td
+                      style="
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e3efff;
+                        font-size: 15px;
+                        color: #091d2e;
+                      "
+                    >
+                      {{approved_vendors}}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 32px 28px">
+                <p
+                  style="
+                    margin: 16px 0 8px;
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    color: #44474e;
+                    font-weight: 700;
+                  "
+                >
+                  Sourcing notes
+                </p>
+                <p
+                  style="
+                    margin: 0;
+                    font-size: 16px;
+                    line-height: 1.65;
+                    color: #091d2e;
+                    white-space: pre-wrap;
+                  "
+                >
+                  {{message}}
+                </p>
+                <p style="margin: 20px 0 0; font-size: 12px; line-height: 1.5; color: #44474e">
+                  {{submitted_at}}
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

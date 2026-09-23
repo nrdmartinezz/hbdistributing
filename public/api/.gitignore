@@ -3,3 +3,7 @@ config.local.php
 
 # Installed by composer in CI before deploy
 vendor/
+
+# Uploaded BOMs saved when the private directory is not writable
+storage/*
+!storage/.htaccess

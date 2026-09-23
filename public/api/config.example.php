@@ -31,6 +31,10 @@ return [
             'notification' => 'notification-contact.html',
             // Autoreply disabled by default — set send_autoreply => true to enable.
         ],
+        'sourcing' => [
+            'subject' => 'Strategic sourcing request — HB Distributing',
+            'notification' => 'notification-sourcing.html',
+        ],
     ],
 
     'recaptcha_min_score' => 0.5,

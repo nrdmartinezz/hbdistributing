@@ -95,7 +95,7 @@ function allowedFormTypes(array $config): array
 {
     $configured = array_keys($config['forms'] ?? []);
 
-    return array_values(array_unique(array_merge(['contact'], $configured)));
+    return array_values(array_unique(array_merge(['contact', 'sourcing'], $configured)));
 }
 
 function getFormMailSettings(array $config, string $formType): array
@@ -107,6 +107,12 @@ function getFormMailSettings(array $config, string $formType): array
             'source_label' => 'Contact form',
             'subject' => "New enquiry — {$fromName}",
             'autoreply_subject' => "We received your message — {$fromName}",
+            'send_autoreply' => false,
+        ],
+        'sourcing' => [
+            'source_label' => 'Strategic sourcing request',
+            'subject' => "Strategic sourcing request — {$fromName}",
+            'autoreply_subject' => "We received your sourcing request — {$fromName}",
             'send_autoreply' => false,
         ],
     ];
@@ -215,6 +221,92 @@ function sendMail(array $config, string|array $to, string $toName, string $subje
         error_log('PHPMailer error: ' . $mail->ErrorInfo);
         throw new RuntimeException('Failed to send email.');
     }
+}
+
+/** @return list<string> */
+function formUploadRoots(): array
+{
+    return [
+        dirname(__DIR__, 3) . '/private/form-uploads',
+        dirname(__DIR__) . '/storage',
+    ];
+}
+
+function locateFormUpload(string $token): ?string
+{
+    foreach (formUploadRoots() as $root) {
+        $directory = $root . '/' . $token;
+        if (is_dir($directory)) {
+            return $directory;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Store one uploaded BOM outside the document root.
+ * Returns null when the field was left empty.
+ *
+ * @param array{name?: string, type?: string, tmp_name?: string, error?: int, size?: int} $file
+ * @return array{token: string, name: string}|null
+ */
+function storeFormUpload(array $file): ?array
+{
+    $error = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
+    if ($error === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+    if ($error === UPLOAD_ERR_INI_SIZE || $error === UPLOAD_ERR_FORM_SIZE) {
+        throw new RuntimeException('That file is too large for the server to accept.');
+    }
+    if ($error !== UPLOAD_ERR_OK) {
+        throw new RuntimeException('The file could not be uploaded. Please try again.');
+    }
+
+    $tmp = (string) ($file['tmp_name'] ?? '');
+    if ($tmp === '' || !is_uploaded_file($tmp)) {
+        throw new RuntimeException('The file could not be uploaded. Please try again.');
+    }
+
+    $size = (int) ($file['size'] ?? 0);
+    if ($size <= 0 || $size > 50 * 1024 * 1024) {
+        throw new RuntimeException('That file is too large. The maximum size is 50MB.');
+    }
+
+    $original = basename(str_replace('\\', '/', (string) ($file['name'] ?? 'upload')));
+    $original = preg_replace('/[^A-Za-z0-9._-]+/', '-', $original) ?? 'upload';
+    $original = trim($original, '.-');
+    if ($original === '') {
+        $original = 'upload';
+    }
+
+    $extension = strtolower(pathinfo($original, PATHINFO_EXTENSION));
+    $allowed = ['csv', 'xlsx', 'pdf', 'dwg', 'dxf', 'step', 'stp'];
+    if (!in_array($extension, $allowed, true)) {
+        throw new RuntimeException('Upload a CSV, XLSX, PDF, or CAD file.');
+    }
+
+    $token = bin2hex(random_bytes(16));
+    $directory = null;
+    foreach (formUploadRoots() as $root) {
+        $candidate = $root . '/' . $token;
+        if (!is_dir($candidate) && !mkdir($candidate, 0700, true) && !is_dir($candidate)) {
+            continue;
+        }
+        $directory = $candidate;
+        break;
+    }
+    if ($directory === null) {
+        throw new RuntimeException('The file could not be saved. Please try again.');
+    }
+
+    $destination = $directory . '/' . $original;
+    if (!move_uploaded_file($tmp, $destination)) {
+        throw new RuntimeException('The file could not be saved. Please try again.');
+    }
+
+    return ['token' => $token, 'name' => $original];
 }
 
 function getClientIp(): string
