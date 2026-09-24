@@ -1,6 +1,6 @@
 /**
  * Homepage nav is the source of truth for every page: Home, Services,
- * Quote Builder, Resources, Contact, and the Get A Quote action.
+ * Quote Builder, Contact, and the Get A Quote action.
  */
 
 export interface NavLink {
@@ -52,7 +52,6 @@ export const navigation: NavigationConfig = {
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services/' },
     { label: 'Quote Builder', href: '/quote/' },
-    { label: 'Resources', href: '/resources/' },
     { label: 'Contact', href: '/contact/' },
   ],
 
@@ -66,14 +65,6 @@ export const navigation: NavigationConfig = {
         { label: 'Warehouse Solutions', href: '/services/' },
         { label: 'Carrier Partnerships', href: '/partners/' },
         { label: 'Compliance', href: '/services/' },
-      ],
-    },
-    {
-      heading: 'Resources',
-      links: [
-        { label: 'Client Portal', href: '/contact/' },
-        { label: 'Whitepapers', href: '/resources/' },
-        { label: 'Newsroom', href: '/resources/' },
       ],
     },
   ],

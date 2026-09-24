@@ -19,8 +19,8 @@ import { Icon } from 'astro-icon/components';
       class="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/30 backdrop-blur-[2px]"
     >
     </div>
-    <Container class="relative grid items-center gap-10 py-16 lg:grid-cols-12 lg:py-24">
-      <div class="flex flex-col gap-6 lg:col-span-8">
+    <Container class="relative py-16 lg:py-24">
+      <div class="flex max-w-3xl flex-col gap-6">
         <p
           class="text-brand-900 bg-brand-900/10 inline-flex w-fit items-center gap-2 rounded-xl px-3 py-1 text-xs font-medium tracking-[0.05em] uppercase shadow-sm"
         >
@@ -30,7 +30,7 @@ import { Icon } from 'astro-icon/components';
         <h1
           class="text-ink-base max-w-3xl text-4xl leading-tight font-bold tracking-tight md:text-5xl md:leading-[60px]"
         >
-          Comprehensive Logistics Partnerships for the Modern Era.
+          {site.tagline}
         </h1>
         <p class="text-ink-muted max-w-2xl text-lg leading-7">{site.description}</p>
         <div class="flex flex-wrap gap-4 pt-2">
@@ -41,24 +41,6 @@ import { Icon } from 'astro-icon/components';
           <Button href="/services/" variant="secondary">Explore Capabilities</Button>
         </div>
       </div>
-
-      <aside
-        class="rounded-lg bg-[#f7f9ff]/90 p-6 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1)] backdrop-blur-md lg:col-span-4"
-      >
-        <div
-          class="mb-4 flex size-12 items-center justify-center rounded-xl bg-[#003f1d] shadow-sm"
-        >
-          <img src="/images/icons/check.svg" alt="" width="20" height="12" />
-        </div>
-        <p class="text-brand-900 text-3xl leading-10 font-semibold">99.8%</p>
-        <p class="text-ink-muted">On-Time Delivery Rate (YTD)</p>
-        <div class="mt-4 h-1 overflow-hidden rounded-full bg-[#d1e4fb]">
-          <div
-            class="h-full w-[99.8%] rounded-full bg-[#6bfe9c] shadow-[0_0_8px_rgba(107,254,156,0.6)]"
-          >
-          </div>
-        </div>
-      </aside>
     </Container>
   </section>
 
@@ -78,8 +60,8 @@ import { Icon } from 'astro-icon/components';
           </h2>
         </div>
         <p class="text-ink-muted max-w-md leading-6">
-          Unlike traditional brokers, HB Distributing integrates directly into your procurement
-          ecosystem, acting as an extension of your own operations team.
+          Unlike traditional brokers, Highland Breeze Distributing integrates directly into your
+          procurement ecosystem, acting as an extension of your own operations team.
         </p>
       </div>
 

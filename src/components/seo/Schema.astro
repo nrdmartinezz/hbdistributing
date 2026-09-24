@@ -35,7 +35,9 @@ const graph: Record<string, unknown>[] = [
     priceRange: site.business.priceRange,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: site.business.address.street,
+      streetAddress: [site.business.address.street, site.business.address.line2]
+        .filter(Boolean)
+        .join(', '),
       addressLocality: site.business.address.locality,
       addressRegion: site.business.address.region,
       postalCode: site.business.address.postalCode,

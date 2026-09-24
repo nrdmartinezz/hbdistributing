@@ -14,13 +14,13 @@ return [
     'recaptcha_project_id' => 'hbdistributing',
     'recaptcha_api_key' => '',
     'recaptcha_secret' => 'YOUR_RECAPTCHA_SECRET_KEY',
-    'notify_to' => 'TWK@hbdistributing.com',
+    'notify_to' => 'info@hbdistributing.com',
     'notify_bcc' => ['nate@webpro.com', 'verifybu@webpro.com'],
-    'from_email' => 'TWK@hbdistributing.com',
-    'from_name' => 'HB Distributing',
-    'site_url' => 'https://example.com',
-    'site_phone' => '(555) 010-4477',
-    'site_phone_href' => '+15550104477',
+    'from_email' => 'info@hbdistributing.com',
+    'from_name' => 'Highland Breeze Distributing',
+    'site_url' => 'https://www.hbdistributing.com',
+    'site_phone' => '+1 (704) 282-2366',
+    'site_phone_href' => '+17042822366',
     'timezone' => 'America/New_York',
 
     // Optional SMTP — leave blank to use PHP mail() on the host.
@@ -31,12 +31,12 @@ return [
 
     'forms' => [
         'contact' => [
-            'subject' => 'New enquiry — HB Distributing',
+            'subject' => 'New enquiry — Highland Breeze Distributing',
             'notification' => 'notification-contact.html',
             // Autoreply disabled by default — set send_autoreply => true to enable.
         ],
         'sourcing' => [
-            'subject' => 'Strategic sourcing request — HB Distributing',
+            'subject' => 'Strategic sourcing request — Highland Breeze Distributing',
             'notification' => 'notification-sourcing.html',
         ],
     ],

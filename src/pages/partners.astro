@@ -12,8 +12,8 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
 ---
 
 <BaseLayout
-  title="Partner With HB Distributing"
-  description="Submit manufacturing capabilities for onboarding evaluation across HB Distributing's global logistics network."
+  title="Partner With Highland Breeze Distributing"
+  description="Submit manufacturing capabilities for onboarding evaluation across Highland Breeze Distributing's network."
 >
   <section class="bg-brand-900 text-white">
     <Container class="grid items-center gap-10 py-16 lg:grid-cols-12">
@@ -21,7 +21,9 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
         <p class="text-brand-300 text-sm font-semibold tracking-[0.12em] uppercase">
           Global vendor network
         </p>
-        <h1 class="mt-3 text-4xl font-semibold md:text-5xl">Partner With HB Distributing</h1>
+        <h1 class="mt-3 text-4xl font-semibold md:text-5xl">
+          Partner With Highland Breeze Distributing
+        </h1>
         <p class="mt-4 max-w-2xl leading-7 text-white/80">
           We scale world-class manufacturing capabilities into global markets through unmatched
           logistics precision, tier-1 distribution networks, and advanced inventory optimization.
@@ -51,8 +53,8 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
           <img src="/images/icons/market.svg" alt="" width="20" height="20" />
           <h3 class="text-ink-base mt-4 text-xl font-semibold">Global Market Access</h3>
           <p class="text-ink-muted mt-2 leading-6">
-            Instantly distribute your product lines across North America, EMEA, and APAC through our
-            established logistics corridors.
+            Distribute your product lines through our regional hubs in Wilmington, Charleston, and
+            Savannah.
           </p>
           <p class="text-accent-600 mt-4 text-sm font-semibold">Enterprise Scale</p>
         </article>
@@ -60,8 +62,7 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
           <img src="/images/icons/qa.svg" alt="" width="20" height="20" />
           <h3 class="text-ink-base mt-4 text-xl font-semibold">Automated Inventory Sync</h3>
           <p class="text-ink-muted mt-2 leading-6">
-            Real-time EDI and API integration ensures optimal stock levels across our 40+ regional
-            distribution hubs.
+            Real-time EDI and API integration keeps stock levels current across our regional hubs.
           </p>
           <p class="text-accent-600 mt-4 text-sm font-semibold">Real-time EDI</p>
         </article>
@@ -171,7 +172,7 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
             <legend class={label}>Operating Territories / Distribution Reach *</legend>
             <div class="mt-3 flex flex-wrap gap-4">
               {
-                ['North America', 'EMEA', 'APAC', 'Latin America'].map((region) => (
+                ['Wilmington, NC', 'Charleston, SC', 'Savannah, GA'].map((region) => (
                   <label class="text-ink-base inline-flex min-h-11 items-center gap-2 text-sm font-medium normal-case">
                     <input
                       type="checkbox"
@@ -237,7 +238,8 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
         <FormMessage />
         <div class="flex flex-wrap items-center justify-between gap-4">
           <p class="text-ink-muted max-w-md text-sm">
-            By submitting, you agree to HB Distributing’s Vendor Compliance & Sourcing Agreement.
+            By submitting, you agree to Highland Breeze Distributing’s Vendor Compliance & Sourcing
+            Agreement.
           </p>
           <button
             type="submit"
@@ -253,32 +255,32 @@ const label = 'text-xs font-semibold tracking-[0.06em] text-ink-base uppercase';
   <section class="bg-white py-16">
     <Container>
       <p class="text-accent-600 text-sm font-semibold tracking-[0.1em] uppercase">
-        Global logistics infrastructure
+        Regional hubs
       </p>
       <h2 class="text-ink-base mt-2 max-w-xl text-3xl font-semibold">
         Integrated Hubs Ready for Your Inventory
       </h2>
       <p class="text-ink-muted mt-3 max-w-2xl">
-        Our distribution centers are strategically placed near major trade corridors, equipped with
-        automated sortation systems, climate-controlled warehousing, and secure bonded storage
-        facilities.
+        Distribution support is centered on our regional hubs along the Southeast coast.
       </p>
-      <div class="mt-8 grid gap-6 md:grid-cols-2">
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
         <article>
           <h3 class="text-accent-600 flex items-center gap-2 font-semibold">
             <img src="/images/icons/pin-dot.svg" alt="" width="9" height="9" />
-            North American Hub (Chicago, IL)
+            Wilmington, NC
           </h3>
-          <p class="text-ink-muted mt-1">1.2M sq. ft. primary sorting and distribution center.</p>
         </article>
         <article>
           <h3 class="text-accent-600 flex items-center gap-2 font-semibold">
             <img src="/images/icons/pin-dot.svg" alt="" width="9" height="9" />
-            European Hub (Rotterdam, NL)
+            Charleston, SC
           </h3>
-          <p class="text-ink-muted mt-1">
-            Direct seaport access for rapid trans-Atlantic freight operations.
-          </p>
+        </article>
+        <article>
+          <h3 class="text-accent-600 flex items-center gap-2 font-semibold">
+            <img src="/images/icons/pin-dot.svg" alt="" width="9" height="9" />
+            Savannah, GA
+          </h3>
         </article>
       </div>
     </Container>

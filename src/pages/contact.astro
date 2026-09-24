@@ -12,8 +12,8 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
 ---
 
 <BaseLayout
-  title="Contact HBDI"
-  description="Connect directly with HB Distributing logistics specialists, regional headquarters, or departmental leads."
+  title="Contact"
+  description="Reach the Highland Breeze Distributing corporate office in Summerville, South Carolina for general inquiries and support."
 >
   <section class="py-16">
     <Container class="gap-16">
@@ -25,7 +25,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
             <img src="/images/icons/pin.svg" alt="" width="20" height="18" />
             Global communications
           </p>
-          <h1 class="text-brand-900 mt-2 text-4xl font-semibold md:text-5xl">Contact HBDI</h1>
+          <h1 class="text-brand-900 mt-2 text-4xl font-semibold md:text-5xl">Contact</h1>
         </div>
         <p class="text-ink-muted max-w-md justify-self-end text-right leading-7 max-lg:text-left">
           Connect directly with our logistics specialists, regional headquarters, or departmental
@@ -151,9 +151,11 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                     Global HQ
                   </p>
                   <p class="text-[#e8f2ff]">
+                    {site.legalName}<br />
                     {site.business.address.street}<br />
+                    {site.business.address.line2}<br />
                     {site.business.address.locality}, {site.business.address.region}{' '}
-                    {site.business.address.postalCode}, USA
+                    {site.business.address.postalCode}
                   </p>
                 </div>
               </li>
@@ -167,7 +169,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                 />
                 <div>
                   <p class="text-brand-300 text-sm font-semibold tracking-[0.04em] uppercase">
-                    Phone support
+                    Office
                   </p>
                   <p class="text-[#e8f2ff]">
                     <a
@@ -175,7 +177,7 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                       class="inline-flex min-h-11 items-center text-[#e8f2ff] no-underline"
                       >{site.business.phone}</a
                     ><br />
-                    Mon-Fri: 8:00 AM - 6:00 PM<br />CST
+                    Mon-Fri: 8:00 AM - 6:00 PM ET
                   </p>
                 </div>
               </li>
@@ -193,15 +195,17 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
                   </p>
                   <p class="text-[#e8f2ff]">
                     <a
-                      href="mailto:support@hbdistributing.com"
+                      href={`mailto:${site.business.email}`}
                       class="inline-flex min-h-11 items-center break-all text-[#e8f2ff] no-underline"
-                      >support@hbdistributing.com</a
-                    ><br />
-                    <a
-                      href="mailto:sales@hbdistributing.com"
-                      class="inline-flex min-h-11 items-center break-all text-[#e8f2ff] no-underline"
-                      >sales@hbdistributing.com</a
+                      >{site.business.email}</a
                     >
+                    <span class="block text-sm text-[#e8f2ff]/80">General inquiries</span>
+                    <a
+                      href={`mailto:${site.business.supportEmail}`}
+                      class="inline-flex min-h-11 items-center break-all text-[#e8f2ff] no-underline"
+                      >{site.business.supportEmail}</a
+                    >
+                    <span class="block text-sm text-[#e8f2ff]/80">Support</span>
                   </p>
                 </div>
               </li>
@@ -215,16 +219,13 @@ const label = 'text-sm font-semibold tracking-[0.04em] text-ink-base';
             </h2>
             <div class="mt-4 flex flex-col gap-4">
               <div class="rounded-sm bg-white p-4">
-                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">
-                  European Operations
-                </p>
-                <p class="text-ink-muted text-sm">Rotterdam Logistics Center, NL</p>
+                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">Wilmington, NC</p>
               </div>
               <div class="rounded-sm bg-white p-4">
-                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">
-                  Asia-Pacific Logistics
-                </p>
-                <p class="text-ink-muted text-sm">Singapore Distribution Hub, SG</p>
+                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">Charleston, SC</p>
+              </div>
+              <div class="rounded-sm bg-white p-4">
+                <p class="text-brand-900 text-sm font-bold tracking-[0.04em]">Savannah, GA</p>
               </div>
             </div>
           </div>

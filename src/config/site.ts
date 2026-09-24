@@ -44,8 +44,11 @@ export interface SiteConfig {
     /** Digits only, E.164 — used for tel: links. */
     phoneHref: string;
     email: string;
+    supportEmail?: string;
     address: {
       street: string;
+      /** Second street line, such as a street address when `street` is a P.O. box. */
+      line2?: string;
       locality: string;
       region: string;
       postalCode: string;
@@ -92,27 +95,30 @@ export interface SiteConfig {
 }
 
 export const site: SiteConfig = {
-  url: (import.meta.env.SITE || 'https://example.com').replace(/\/$/, ''),
-  name: 'HB Distributing',
-  legalName: 'HB Distributing',
-  tagline: 'Comprehensive logistics partnerships for the modern era.',
+  url: (import.meta.env.SITE || 'https://www.hbdistributing.com').replace(/\/$/, ''),
+  name: 'Highland Breeze Distributing',
+  legalName: 'Highland Breeze Distributing, Inc.',
+  tagline: 'Industrial Products. Delivered Dependably.',
   description:
-    "We don't just move freight; we engineer resilient supply chains. Experience precision, transparency, and tailored solutions designed to drive your B2B operations forward globally.",
+    'Highland Breeze Distributing, Inc. provides industrial product distribution, sourcing, and supply chain support for manufacturers, OEMs, maintenance teams, and industrial customers. We help customers simplify purchasing, locate reliable products, and keep operations moving.',
   locale: 'en-US',
 
   business: {
     schemaType: 'LocalBusiness',
-    phone: '+1 (800) 555-0199',
-    phoneHref: '+18005550199',
-    email: 'support@hbdistributing.com',
+    phone: '+1 (704) 282-2366',
+    phoneHref: '+17042822366',
+    /** General inquiries, corporate office, and the contact form. */
+    email: 'info@hbdistributing.com',
+    /** Published support address. Owner and personal mailboxes stay off the site. */
+    supportEmail: 'support@hbdistributing.com',
     address: {
-      street: '1200 Logistics Way, Suite 400',
-      locality: 'Chicago',
-      region: 'IL',
-      postalCode: '60601',
+      street: 'P.O. Box 129',
+      line2: '310 Marion Ave.',
+      locality: 'Summerville',
+      region: 'SC',
+      postalCode: '29483',
       country: 'US',
     },
-    geo: { latitude: 41.8781, longitude: -87.6298 },
     hours: ['Mo-Fr 08:00-18:00'],
   },
 
@@ -143,8 +149,11 @@ export const site: SiteConfig = {
 
 export const formattedAddress = [
   site.business.address.street,
+  site.business.address.line2,
   `${site.business.address.locality}, ${site.business.address.region} ${site.business.address.postalCode}`,
-].join(', ');
+]
+  .filter(Boolean)
+  .join(', ');
 
 /** LogDash site ID for LogDash.astro (`data-website-id`). Blank skips the script. */
 export const logdashWebsiteId = site.analytics.logdash;

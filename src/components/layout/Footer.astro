@@ -19,8 +19,8 @@ import { site } from '../../config/site';
           />
         </a>
         <p class="text-ink-muted max-w-xs text-base leading-6">
-          Leading the industry in precision global logistics and supply chain optimization since
-          1994.
+          Industrial product distribution, sourcing, and supply chain support for manufacturers,
+          OEMs, maintenance teams, and industrial customers.
         </p>
       </div>
 
@@ -50,6 +50,7 @@ import { site } from '../../config/site';
         <h2 class="text-brand-900 text-sm font-semibold tracking-[0.04em] uppercase">Contact</h2>
         <ul class="text-ink-muted flex flex-col gap-2 text-base leading-6">
           <li>{site.business.address.street}</li>
+          {site.business.address.line2 && <li>{site.business.address.line2}</li>}
           <li>
             {site.business.address.locality}, {site.business.address.region}{' '}
             {site.business.address.postalCode}
@@ -77,7 +78,10 @@ import { site } from '../../config/site';
     <div
       class="border-line-base/30 flex w-full flex-col gap-3 border-t pt-6 text-xs font-medium md:flex-row md:items-center md:justify-between"
     >
-      <p class="text-ink-muted">© 2024 HB Distributing. All rights reserved.</p>
+      <p class="text-ink-muted">
+        © {new Date().getFullYear()}
+        {site.legalName} All rights reserved.
+      </p>
       <ul class="flex flex-wrap gap-6">
         {
           navigation.legal.map((link) => (

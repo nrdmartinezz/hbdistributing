@@ -9,58 +9,16 @@ const categories = [
   { id: 'logistics', label: 'Logistics Trends' },
 ];
 
-const articles = [
-  {
-    category: 'company',
-    label: 'Company Updates',
-    date: 'Oct 24, 2024',
-    title: 'HB Distributing Opens New Automated Hub in Frankfurt',
-    excerpt:
-      'Our newest facility expands our European footprint, featuring next-generation robotics that increase sorting efficiency by 40% and shorten cross-dock dwell time.',
-    image: '/images/insight-frankfurt.png',
-    featured: true,
-  },
-  {
-    category: 'industry',
-    label: 'Industry Insights',
-    date: 'Oct 18, 2024',
-    title: 'Navigating Q4 Capacity Constraints',
-    excerpt:
-      'Expert analysis on securing carrier space ahead of the holiday peak season, with the lanes most likely to tighten first.',
-    image: '/images/insight-capacity.png',
-    featured: false,
-  },
-  {
-    category: 'logistics',
-    label: 'Logistics Trends',
-    date: 'Oct 12, 2024',
-    title: 'The Rise of Predictive Analytics in Freight',
-    excerpt:
-      'How machine learning algorithms are moving from reactive tracking to proactive delay prevention across ocean and domestic moves.',
-    image: '/images/insight-analytics.png',
-    featured: false,
-  },
-  {
-    category: 'company',
-    label: 'Company Updates',
-    date: 'Oct 05, 2024',
-    title: 'Fleet Modernization Initiative Complete',
-    excerpt:
-      "We've successfully upgraded 100% of our domestic fleet to lower-emission vehicles, cutting idle time and fuel spend on core lanes.",
-    image: '/images/insight-fleet.png',
-    featured: false,
-  },
-  {
-    category: 'industry',
-    label: 'Industry Insights',
-    date: 'Sep 28, 2024',
-    title: 'Understanding New Customs Regulations',
-    excerpt:
-      'A breakdown of the recent changes to cross-border documentation requirements and how importers can stay ahead of holds.',
-    image: '/images/insight-customs.png',
-    featured: false,
-  },
-];
+/** Add real articles here when the newsroom goes live. Each item needs category, label, date, title, excerpt, image, and featured. */
+const articles: {
+  category: string;
+  label: string;
+  date: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  featured: boolean;
+}[] = [];
 
 const counts = Object.fromEntries(
   categories.map((category) => [
@@ -74,14 +32,14 @@ const counts = Object.fromEntries(
 
 <BaseLayout
   title="Latest Insights"
-  description="Stay informed with the latest updates from HB Distributing, industry trends, and deep dives into global logistics optimization."
+  description="News and updates from Highland Breeze Distributing."
+  noindex
 >
   <section class="py-16" data-insights>
     <Container>
       <h1 class="text-ink-base text-4xl font-bold md:text-5xl">Latest Insights</h1>
       <p class="text-ink-muted mt-3 max-w-2xl text-lg leading-7">
-        Stay informed with the latest updates from HB Distributing, industry trends, and deep dives
-        into global logistics optimization.
+        News and updates from Highland Breeze Distributing.
       </p>
 
       <div class="mt-10 grid items-start gap-8 lg:grid-cols-12">
@@ -228,18 +186,7 @@ const counts = Object.fromEntries(
           </div>
 
           <p class="text-ink-muted hidden text-sm" data-empty>No stories match that search.</p>
-
-          <nav class="mt-4 flex items-center justify-center gap-2" aria-label="Insights pages">
-            <span class="text-ink-muted px-3 py-2" aria-hidden="true">‹</span>
-            <span
-              class="bg-brand-900 flex size-11 items-center justify-center rounded-full text-sm font-semibold text-white"
-              aria-current="page">1</span
-            >
-            <span class="text-ink-muted flex size-11 items-center justify-center text-sm">2</span>
-            <span class="text-ink-muted flex size-11 items-center justify-center text-sm">3</span>
-            <span class="text-ink-muted px-2">…</span>
-            <span class="text-ink-muted px-3 py-2" aria-hidden="true">›</span>
-          </nav>
+          {articles.length === 0 && <p class="text-ink-muted text-sm">No news articles yet.</p>}
         </div>
       </div>
     </Container>

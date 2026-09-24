@@ -4,9 +4,9 @@ import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
 
-const EXCLUDED_FROM_SITEMAP = ['/thank-you/', '/styleguide/'];
+const EXCLUDED_FROM_SITEMAP = ['/thank-you/', '/styleguide/', '/resources/'];
 
-const siteUrl = (process.env.SITE_URL || 'https://example.com').replace(/\/$/, '');
+const siteUrl = (process.env.SITE_URL || 'https://www.hbdistributing.com').replace(/\/$/, '');
 // Indexing is opt-in. This launch ships to production before the site should be found.
 const allowIndexing = process.env.ALLOW_INDEXING === 'true';
 process.env.PUBLIC_ALLOW_INDEXING = allowIndexing ? 'true' : 'false';
