@@ -39,13 +39,20 @@ if (!empty($_POST['_gotcha'])) {
     jsonSuccess();
 }
 
+$recaptchaToken = (string) ($_POST['g-recaptcha-response'] ?? '');
+$minScore = (float) ($config['recaptcha_min_score'] ?? 0.5);
+$recaptchaProject = trim((string) ($config['recaptcha_project_id'] ?? ''));
+$recaptchaApiKey = trim((string) ($config['recaptcha_api_key'] ?? ''));
+$recaptchaSiteKey = trim((string) ($config['recaptcha_site_key'] ?? ''));
 $recaptchaSecret = trim((string) ($config['recaptcha_secret'] ?? ''));
-if ($recaptchaSecret !== '' && $recaptchaSecret !== 'YOUR_RECAPTCHA_SECRET_KEY') {
-    $recaptchaToken = (string) ($_POST['g-recaptcha-response'] ?? '');
-    $minScore = (float) ($config['recaptcha_min_score'] ?? 0.5);
-    if (!verifyRecaptcha($recaptchaToken, $recaptchaSecret, $minScore, $remoteIp)) {
-        jsonError(400, 'Verification failed. Please refresh and try again.');
-    }
+$recaptchaOk = true;
+if ($recaptchaProject !== '' && $recaptchaApiKey !== '' && $recaptchaSiteKey !== '') {
+    $recaptchaOk = verifyRecaptchaEnterprise($recaptchaToken, $recaptchaProject, $recaptchaApiKey, $recaptchaSiteKey, $minScore, $remoteIp);
+} elseif ($recaptchaSecret !== '' && $recaptchaSecret !== 'YOUR_RECAPTCHA_SECRET_KEY') {
+    $recaptchaOk = verifyRecaptcha($recaptchaToken, $recaptchaSecret, $minScore, $remoteIp);
+}
+if (!$recaptchaOk) {
+    jsonError(400, 'Verification failed. Please refresh and try again.');
 }
 
 $formType = trim((string) ($_POST['form_type'] ?? ''));

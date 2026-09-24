@@ -9,6 +9,10 @@
  * and smtp_pass to switch to authenticated SMTP — useful when mail() deliverability is poor.
  */
 return [
+    'recaptcha_site_key' => '6LeSt8stAAAAAECAC7v5zq8xauIXSMiBBa5gn3A5',
+    // Enterprise assessment. Leave blank to fall back to recaptcha_secret.
+    'recaptcha_project_id' => '',
+    'recaptcha_api_key' => '',
     'recaptcha_secret' => 'YOUR_RECAPTCHA_SECRET_KEY',
     'notify_to' => 'TWK@hbdistributing.com',
     'notify_bcc' => ['nate@webpro.com', 'verifybu@webpro.com'],

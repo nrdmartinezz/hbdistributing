@@ -174,11 +174,12 @@ Shared client-side wiring: `RecaptchaV3.astro` + `SiteFormHandler.astro` in `Bas
 
 ## reCAPTCHA
 
-Register a v3 key pair in [Google reCAPTCHA admin](https://www.google.com/recaptcha/admin).
-Add the client domain to allowed domains.
+The site loads reCAPTCHA Enterprise and sends the token as `g-recaptcha-response`.
 
-- **Site key** → `recaptchaSiteKey` in `src/config/site.ts`
-- **Secret key** → `recaptcha_secret` in the PHP config file
+- **Site key** → `recaptchaSiteKey` in `src/config/site.ts` and `recaptcha_site_key` in the PHP config
+- **Project ID and API key** → `recaptcha_project_id` and `recaptcha_api_key` in `~/private/site-mail.php`
+
+The server creates an assessment and rejects scores under `recaptcha_min_score` (default 0.5). A legacy `recaptcha_secret` is used only when the Enterprise project ID and API key are blank.
 
 ## Local testing
 

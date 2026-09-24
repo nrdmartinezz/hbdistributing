@@ -1,6 +1,6 @@
 ---
 /**
- * reCAPTCHA v3 for site forms. Renders nothing until recaptchaSiteKey is set.
+ * reCAPTCHA Enterprise for site forms. Renders nothing until recaptchaSiteKey is set.
  * On submit, attaches g-recaptcha-response then lets the form proceed (fetch
  * handler or native POST fallback).
  */
@@ -13,7 +13,7 @@ const formEndpoint = site.formEndpoint;
 {
   siteKey && formEndpoint && (
     <>
-      <script is:inline src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`} />
+      <script is:inline src={`https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`} />
       <div id="recaptcha-config" hidden data-sitekey={siteKey} data-endpoint={formEndpoint} />
     </>
   )
@@ -33,7 +33,7 @@ const formEndpoint = site.formEndpoint;
       new Promise((resolve, reject) => {
         const started = Date.now();
         const tick = () => {
-          const grecaptcha = window.grecaptcha;
+          const grecaptcha = window.grecaptcha?.enterprise;
           if (grecaptcha?.execute) {
             grecaptcha.ready(() => resolve(grecaptcha));
             return;
@@ -49,7 +49,7 @@ const formEndpoint = site.formEndpoint;
 
     const attachToken = async (form) => {
       const grecaptcha = await waitForRecaptcha();
-      const token = await grecaptcha.execute(siteKey, { action: 'contact' });
+      const token = await grecaptcha.execute(siteKey, { action: 'submit' });
       let input = form.querySelector('input[name="g-recaptcha-response"]');
       if (!input) {
         input = document.createElement('input');

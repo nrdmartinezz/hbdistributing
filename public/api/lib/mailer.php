@@ -382,5 +382,64 @@ function verifyRecaptcha(string $token, string $secret, float $minScore, string 
         return false;
     }
 
+    $action = (string) ($result['action'] ?? '');
+    if ($action !== '' && $action !== 'submit') {
+        return false;
+    }
+
     return (float) ($result['score'] ?? 0) >= $minScore;
+}
+
+function verifyRecaptchaEnterprise(string $token, string $projectId, string $apiKey, string $siteKey, float $minScore, string $remoteIp): bool
+{
+    if ($token === '' || $projectId === '' || $apiKey === '' || $siteKey === '') {
+        return false;
+    }
+
+    $payload = json_encode([
+        'event' => [
+            'token' => $token,
+            'siteKey' => $siteKey,
+            'expectedAction' => 'submit',
+            'userIpAddress' => $remoteIp,
+        ],
+    ]);
+    if ($payload === false) {
+        return false;
+    }
+
+    $url = 'https://recaptchaenterprise.googleapis.com/v1/projects/'
+        . rawurlencode($projectId)
+        . '/assessments?key='
+        . rawurlencode($apiKey);
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => "Content-Type: application/json\r\n",
+            'content' => $payload,
+            'timeout' => 8,
+            'ignore_errors' => true,
+        ],
+    ]);
+    $response = file_get_contents($url, false, $context);
+    if ($response === false) {
+        return false;
+    }
+
+    $result = json_decode($response, true);
+    if (!is_array($result)) {
+        return false;
+    }
+
+    $properties = $result['tokenProperties'] ?? null;
+    if (!is_array($properties) || empty($properties['valid'])) {
+        return false;
+    }
+    if (($properties['action'] ?? '') !== 'submit') {
+        return false;
+    }
+
+    $score = (float) ($result['riskAnalysis']['score'] ?? 0);
+
+    return $score >= $minScore;
 }

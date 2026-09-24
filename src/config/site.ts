@@ -74,8 +74,8 @@ export interface SiteConfig {
   formEndpoint: string;
 
   /**
-   * Google reCAPTCHA v3 site key (public). Blank skips the widget. The matching
-   * secret is configured server-side in ~/private/site-mail.php.
+   * Google reCAPTCHA Enterprise site key (public). Blank skips the widget.
+   * The project ID and API key are configured server-side in ~/private/site-mail.php.
    */
   recaptchaSiteKey: string;
 
@@ -121,7 +121,7 @@ export const site: SiteConfig = {
   defaultOgImage: '/og-default.png',
 
   formEndpoint: '/api/submit.php',
-  recaptchaSiteKey: '',
+  recaptchaSiteKey: '6LeSt8stAAAAAECAC7v5zq8xauIXSMiBBa5gn3A5',
 
   analytics: {
     logdash: '',

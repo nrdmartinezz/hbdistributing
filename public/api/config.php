@@ -8,6 +8,7 @@ return [
     'notify_bcc' => ['nate@webpro.com', 'verifybu@webpro.com'],
     'from_email' => 'TWK@hbdistributing.com',
     'from_name' => 'HB Distributing',
+    'recaptcha_site_key' => '6LeSt8stAAAAAECAC7v5zq8xauIXSMiBBa5gn3A5',
     'forms' => [
         'contact' => [
             'subject' => 'New enquiry — HB Distributing',
